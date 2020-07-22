@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/scan"
+        android:title="@string/scan"
+        android:icon="@drawable/scan"
+        android:checked="true" />
+
+    <item
+        android:id="@+id/create"
+        android:title="@string/create"
+        android:icon="@drawable/create"
+        android:checked="false" />
+</menu>
