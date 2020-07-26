@@ -17,4 +17,9 @@ public class CreateQRFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_create_qr, container, false);
         return view;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 }

@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.Preview;
@@ -34,7 +33,9 @@ public class ScanQRFragment extends Fragment {
     private ImageButton flashButton;
     private boolean isFlashEnabled = false;
 
-    private Camera camera;
+    private androidx.camera.core.Camera camera;
+
+    private GraphicOverlay graphicOverlay;
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -43,11 +44,31 @@ public class ScanQRFragment extends Fragment {
         outState.putBoolean(FLASH_KEY, isFlashEnabled);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // disable the flash is required
+        if (isFlashEnabled)
+            camera.getCameraControl().enableTorch(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // enable the flash if it's true
+        if (camera != null)
+            camera.getCameraControl().enableTorch(isFlashEnabled);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_scan_qr, container, false);
         flashButton = view.findViewById(R.id.flash);
+        graphicOverlay = view.findViewById(R.id.graphicOverlay);
+
         return view;
     }
 
@@ -58,6 +79,8 @@ public class ScanQRFragment extends Fragment {
         if (savedInstanceState != null && savedInstanceState.containsKey(FLASH_KEY)) {
             isFlashEnabled = savedInstanceState.getBoolean(FLASH_KEY);
         }
+
+        assert getActivity() != null; // *** assert ***
 
         if (allPermissionsGranted()) {
             startCamera();
@@ -114,16 +137,19 @@ public class ScanQRFragment extends Fragment {
 
                 camera = cameraProvider.bindToLifecycle(ScanQRFragment.this, cameraSelector, preview, imageAnalysis);
                 onFlashChanged(isFlashEnabled);
-//                CameraX.bindToLifecycle(ScanQRFragment.this, cameraSelector, preview);
-
 
                 assert getActivity() != null;  // *** assert ***
 
                 PreviewView previewView = getActivity().findViewById(R.id.previewView);
                 preview.setSurfaceProvider(previewView.createSurfaceProvider());
+                System.out.println("width: ");
+                // the default resolution for camera2 is 640x480 for landscape and 480x640 for portrait
+                graphicOverlay.setPreviewSize(480, 640);
 
-                imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(getContext()), new BarcodeAnalyzer());
 
+                imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(getContext()), new BarcodeAnalyzer(graphicOverlay));
+                System.out.println("analyzer orientation: " + imageAnalysis.getTargetRotation());
+                System.out.println("preview orientation: " + preview.getTargetRotation());
 
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();

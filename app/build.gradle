@@ -48,5 +48,5 @@ dependencies {
 
     // for ml recognition
     implementation 'com.google.mlkit:barcode-scanning:16.0.1'
-
+    
 }
