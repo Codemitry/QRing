@@ -1,4 +1,4 @@
-package com.codemitry.scanme;
+package com.codemitry.scanme.ui;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -19,12 +19,20 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.codemitry.scanme.OnHistoryClickListener;
+import com.codemitry.scanme.R;
+import com.codemitry.scanme.barcode.BarcodeAnalyzer;
+import com.codemitry.scanme.barcode.GraphicOverlay;
+import com.codemitry.scanme.history.HistoryAction;
+import com.codemitry.scanme.history.HistoryActionsManager;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.mlkit.vision.barcode.Barcode;
 
 import java.util.concurrent.ExecutionException;
 
-public class ScanQRFragment extends Fragment {
+public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChangeStatesListener {
 
     private static final String[] REQUIRED_PERMISSIONS = {Manifest.permission.CAMERA};
     private static final int REQUEST_CODE_PERMISSIONS = 9182;
@@ -36,6 +44,12 @@ public class ScanQRFragment extends Fragment {
     private androidx.camera.core.Camera camera;
 
     private GraphicOverlay graphicOverlay;
+
+    private OnHistoryClickListener onHistoryClickListener;
+
+    private boolean isPreviewStarted;
+
+    private HistoryActionsManager historyActionsManager;
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -68,6 +82,9 @@ public class ScanQRFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_scan_qr, container, false);
         flashButton = view.findViewById(R.id.flash);
         graphicOverlay = view.findViewById(R.id.graphicOverlay);
+        view.findViewById(R.id.history).setOnClickListener((View v) -> onHistoryClickListener.onHistoryClick());
+
+        historyActionsManager = new ViewModelProvider(requireActivity()).get(HistoryActionsManager.class);
 
         return view;
     }
@@ -84,12 +101,9 @@ public class ScanQRFragment extends Fragment {
 
         if (allPermissionsGranted()) {
             startCamera();
-            this.flashButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    isFlashEnabled = !isFlashEnabled;
-                    onFlashChanged(isFlashEnabled);
-                }
+            this.flashButton.setOnClickListener((View view) -> {
+                isFlashEnabled = !isFlashEnabled;
+                onFlashChanged(isFlashEnabled);
             });
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -122,39 +136,58 @@ public class ScanQRFragment extends Fragment {
         return true;
     }
 
+    ProcessCameraProvider cameraProvider;
+    CameraSelector cameraSelector;
+    Preview preview;
+    ImageAnalysis imageAnalysis;
+
     private void startCamera() {
 
         assert getContext() != null;  // *** assert ***
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(getContext());
         cameraProviderFuture.addListener(() -> {
             try {
-                ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                Preview preview = new Preview.Builder().build();
-                CameraSelector cameraSelector = new CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
+                cameraProvider = cameraProviderFuture.get();
+                preview = new Preview.Builder().build();
+                cameraSelector = new CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
                 cameraProvider.unbindAll();
 
-                ImageAnalysis imageAnalysis = new ImageAnalysis.Builder().build();
+                imageAnalysis = new ImageAnalysis.Builder().setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
 
                 camera = cameraProvider.bindToLifecycle(ScanQRFragment.this, cameraSelector, preview, imageAnalysis);
+                isPreviewStarted = true;
                 onFlashChanged(isFlashEnabled);
 
                 assert getActivity() != null;  // *** assert ***
 
                 PreviewView previewView = getActivity().findViewById(R.id.previewView);
                 preview.setSurfaceProvider(previewView.createSurfaceProvider());
-                System.out.println("width: ");
                 // the default resolution for camera2 is 640x480 for landscape and 480x640 for portrait
                 graphicOverlay.setPreviewSize(480, 640);
 
 
-                imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(getContext()), new BarcodeAnalyzer(graphicOverlay));
-                System.out.println("analyzer orientation: " + imageAnalysis.getTargetRotation());
-                System.out.println("preview orientation: " + preview.getTargetRotation());
+                imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(getContext()), new BarcodeAnalyzer(graphicOverlay, this));
 
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
         }, ContextCompat.getMainExecutor(getContext()));
+    }
+
+//    private void stopPreview() {
+//        cameraProvider.unbind(preview);
+//        isPreviewStarted = false;
+//    }
+
+    private void startPreview() {
+        cameraProvider.unbindAll();
+        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
+        isPreviewStarted = true;
+    }
+
+    private void stopCamera() {
+//        cameraProvider.unbindAll();
+        cameraProvider.unbind(preview, imageAnalysis);
     }
 
     private void onFlashChanged(boolean isFlashEnabled) {
@@ -166,4 +199,45 @@ public class ScanQRFragment extends Fragment {
         camera.getCameraControl().enableTorch(isFlashEnabled);
     }
 
+    public void setOnHistoryClickListener(OnHistoryClickListener listener) {
+        this.onHistoryClickListener = listener;
+    }
+
+    @Override
+    public void onChangeState(BarcodeAnalyzer.States newState) {
+        switch (newState) {
+            case NOT_STARTED:
+            case DETECTED:
+                if (isPreviewStarted)
+                    stopCamera();
+                break;
+            case DETECTING:
+                if (!isPreviewStarted)
+                    startPreview();
+                break;
+//            case DETECTED:
+//                if (isPreviewStarted)
+//                    stopCamera();
+//                break;
+        }
+    }
+
+    @Override
+    public void onBarcodeSearched(Barcode barcode) {
+        requireActivity().runOnUiThread(() -> {
+            startBarcodeResultFragment(barcode);
+            historyActionsManager.addHistoryAction(new HistoryAction(HistoryAction.Actions.SCAN, barcode));
+            historyActionsManager.saveHistoryActions();
+        });
+
+    }
+
+    private void startBarcodeResultFragment(Barcode barcode) {
+        BarcodeResultFragment barcodeResultFragment = new BarcodeResultFragment(com.codemitry.scanme.barcode.Barcode.getBarcode(barcode));
+        barcodeResultFragment.setOnCancelListener(() -> {
+            startCamera();
+        });
+
+        barcodeResultFragment.show(requireFragmentManager(), barcodeResultFragment.getClass().getSimpleName());
+    }
 }

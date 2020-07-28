@@ -1,4 +1,4 @@
-package com.codemitry.scanme;
+package com.codemitry.scanme.barcode;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,9 +13,9 @@ import java.util.Set;
 public class GraphicOverlay extends View {
     private final Object mLock = new Object();
     private int mPreviewWidth;
-    private float mWidthScaleFactor = 1.0f;
+    float mWidthScaleFactor = 1.0f;
     private int mPreviewHeight;
-    private float mHeightScaleFactor = 1.0f;
+    float mHeightScaleFactor = 1.0f;
     private int mFacing = CameraSource.CAMERA_FACING_BACK;
     private Set<Graphic> mGraphics = new HashSet<>();
 
@@ -25,10 +25,12 @@ public class GraphicOverlay extends View {
      * graphics element.  Add instances to the overlay using {@link GraphicOverlay#add(Graphic)}.
      */
     public static abstract class Graphic {
-        private GraphicOverlay mOverlay;
+        GraphicOverlay overlay;
+        Context context;
 
         public Graphic(GraphicOverlay overlay) {
-            mOverlay = overlay;
+            this.overlay = overlay;
+            this.context = overlay.getContext();
         }
 
         /**
@@ -50,14 +52,14 @@ public class GraphicOverlay extends View {
          * scale.
          */
         public float scaleX(float horizontal) {
-            return horizontal * mOverlay.mWidthScaleFactor;
+            return horizontal * overlay.mWidthScaleFactor;
         }
 
         /**
          * Adjusts a vertical value of the supplied value from the preview scale to the view scale.
          */
         public float scaleY(float vertical) {
-            return vertical * mOverlay.mHeightScaleFactor;
+            return vertical * overlay.mHeightScaleFactor;
         }
 
         /**
@@ -65,8 +67,8 @@ public class GraphicOverlay extends View {
          * system.
          */
         public float translateX(float x) {
-            if (mOverlay.mFacing == CameraSource.CAMERA_FACING_FRONT) {
-                return mOverlay.getWidth() - scaleX(x);
+            if (overlay.mFacing == CameraSource.CAMERA_FACING_FRONT) {
+                return overlay.getWidth() - scaleX(x);
             } else {
                 return scaleX(x);
             }
@@ -81,7 +83,7 @@ public class GraphicOverlay extends View {
         }
 
         public void postInvalidate() {
-            mOverlay.postInvalidate();
+            overlay.postInvalidate();
         }
     }
 

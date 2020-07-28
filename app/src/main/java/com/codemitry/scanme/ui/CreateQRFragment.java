@@ -1,4 +1,4 @@
-package com.codemitry.scanme;
+package com.codemitry.scanme.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.codemitry.scanme.R;
 
 public class CreateQRFragment extends Fragment {
 
@@ -21,5 +23,6 @@ public class CreateQRFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
     }
 }

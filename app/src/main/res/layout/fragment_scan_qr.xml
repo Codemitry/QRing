@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ScanQRFragment">
+    tools:context=".ui.ScanQRFragment">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
@@ -14,13 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!--    <TextureView-->
-    <!--        android:id="@+id/textureView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:keepScreenOn="true"/>-->
-
-    <com.codemitry.scanme.GraphicOverlay
+    <com.codemitry.scanme.barcode.GraphicOverlay
         android:id="@+id/graphicOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -33,7 +27,22 @@
         android:src="@drawable/flash_off"
         android:background="?selectableItemBackground"
 
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/history" />
+
+    <ImageButton
+        android:id="@+id/history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@drawable/history"
+        android:background="?selectableItemBackground"
+
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
 
         app:layout_constraintTop_toTopOf="parent"

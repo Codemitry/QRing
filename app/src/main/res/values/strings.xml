@@ -3,4 +3,8 @@
     <string name="permissions_not_granted">Permissions not granted by the user</string>
     <string name="scan">Scan</string>
     <string name="create">Create</string>
+    <string name="qr_scanning">Scanning</string>
+    <string name="qr_creation">Creation</string>
+    <string name="history">History</string>
+    <string name="text">Text</string>
 </resources>
