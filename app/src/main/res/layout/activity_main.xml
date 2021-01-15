@@ -22,7 +22,9 @@
 
         app:menu="@menu/bottom_menu"
 
-        android:background="@android:color/white"
+        android:background="@color/gray_200"
+
+        android:longClickable="false"
         app:itemIconTint="@drawable/bottom_navigation_item_colors"
         app:layout_constraintBottom_toBottomOf="parent" />
 

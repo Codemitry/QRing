@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Scan me</string>
+    <string name="app_name" translatable="false">Scan me</string>
     <string name="permissions_not_granted">Permissions not granted by the user</string>
     <string name="scan">Scan</string>
     <string name="create">Create</string>
@@ -7,4 +7,33 @@
     <string name="qr_creation">Creation</string>
     <string name="history">History</string>
     <string name="text">Text</string>
+    <string name="copied">Copied</string>
+    <string name="link">Link</string>
+    <string name="open_link">Open link</string>
+    <string name="wifi" translatable="false">Wi-Fi</string>
+    <string name="ssid" translatable="false">SSID:</string>
+    <string name="connect">Connect</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="send">Send</string>
+    <string name="address">Address</string>
+    <string name="subject">Subject</string>
+    <string name="message">Message</string>
+    <string name="send_email">Send email…</string>
+    <string name="sms" translatable="false">SMS</string>
+    <string name="number">Number</string>
+    <string name="vcard" translatable="false">vCard</string>
+    <string name="add_contact">Add contact</string>
+    <string name="person">Person</string>
+    <string name="company">Company</string>
+    <string name="job">Job</string>
+    <string name="website">Website</string>
+    <string name="location">Location</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="open">Open</string>
+    <string name="event">Event</string>
+    <string name="when">When</string>
+    <string name="what">What</string>
+    <string name="add_to_calendar">Add to calendar</string>
+    <string name="at">at</string>
 </resources>

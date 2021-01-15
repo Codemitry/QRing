@@ -5,8 +5,8 @@
 
     style="@style/CardResultScan"
 
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/LayoutResultScan"
@@ -20,7 +20,7 @@
             android:scaleX="0.75"
             android:scaleY="0.75"
 
-            android:src="@drawable/text"
+            android:src="@drawable/link"
             android:tint="@color/gray_800"
 
             app:layout_constraintBottom_toBottomOf="@id/title"
@@ -31,31 +31,30 @@
         <TextView
             android:id="@+id/title"
             style="@style/TitleResultScan"
-            android:text="@string/text"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
+            android:text="@string/link"
 
-
-            app:layout_constraintTop_toBottomOf="@id/icon"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/icon" />
 
         <ImageButton
             android:id="@+id/copy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:src="@drawable/copy"
+            android:layout_marginEnd="10dp"
+            android:background="?selectableItemBackground"
             android:scaleX="0.75"
+
             android:scaleY="0.75"
 
-            android:background="?selectableItemBackground"
-
-            android:layout_marginEnd="10dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/copy"
             app:layout_constraintBottom_toTopOf="@id/titleDivider"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/titleDivider"
@@ -63,26 +62,44 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
 
-            app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
 
             />
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/link"
             style="@style/TextResultScan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            tools:text="There is anything wrote here"
-
             android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
+
             android:layout_marginTop="15dp"
+
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
             app:layout_constraintTop_toBottomOf="@id/titleDivider"
+            tools:text="https://codemitry.codes"
 
             />
+
+        <Button
+            android:id="@+id/openLink"
+            style="@style/ButtonResultScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+
+            android:layout_marginBottom="10dp"
+            android:text="@string/open_link"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/link" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

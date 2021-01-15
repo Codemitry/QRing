@@ -24,6 +24,10 @@
             android:id="@+id/barcodeData"
 
             tools:text="https://codemitry.codes"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:textColor="@color/gray_800"
+            android:textSize="18sp"
 
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -44,9 +48,13 @@
             android:id="@+id/action"
 
             tools:text="Action"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.089"
+            android:textColor="@color/gray_600"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
 
             android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"

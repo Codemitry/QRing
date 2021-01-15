@@ -5,19 +5,31 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@color/gray_100</item>
     </style>
 
     <style name="HistoryTitle" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">32sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/gray_900</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.0892857143</item>
     </style>
 
     <style name="CardResultScan" parent="CardView">
-        <item name="cardCornerRadius">20dp</item>
+        <item name="cardCornerRadius">25dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
 
     </style>
 
     <style name="LayoutResultScan">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
         <item name="android:paddingTop">15dp</item>
         <item name="android:paddingBottom">20dp</item>
     </style>
@@ -25,6 +37,12 @@
     <style name="TitleResultScan" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">32sp</item>
         <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/gray_800</item>
+
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.0892857143</item>
 
         <!--        <item name="android:layout_marginTop">5dp</item>-->
         <!--        <item name="layout_constraintTop_toTopOf">parent</item>-->
@@ -33,14 +51,44 @@
     </style>
 
     <style name="TextResultScan" parent="Widget.MaterialComponents.TextView">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">22sp</item>
+
+        <item name="android:textColor">@color/gray_700</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.05</item>
+    </style>
+
+    <style name="SubTextResultScan" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">18sp</item>
+
+        <item name="android:textColor">@color/gray_800</item>
+
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="TitleDivider">
         <item name="android:layout_marginStart">1dp</item>
         <item name="android:layout_marginEnd">1dp</item>
-        <item name="android:layout_marginTop">10dp</item>
         <item name="android:background">@color/titleDividerColor</item>
+    </style>
+
+    <style name="BodyDivider">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:background">@color/bodyDividerColor</item>
+    </style>
+
+    <style name="ButtonResultScan" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:background">@drawable/button_result_scan_rect</item>
+        <item name="android:textAllCaps">false</item>
+        <!-- Убирает тень от кнопки -->
+        <item name="android:stateListAnimator">@null</item>
+
+        <item name="android:paddingStart">25dp</item>
+        <item name="android:paddingEnd">25dp</item>
     </style>
 
 
