@@ -170,7 +170,7 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
                 assert getActivity() != null;  // *** assert ***
 
                 PreviewView previewView = getActivity().findViewById(R.id.previewView);
-                preview.setSurfaceProvider(previewView.createSurfaceProvider());
+                preview.setSurfaceProvider(previewView.getSurfaceProvider());
                 // the default resolution for camera2 is 640x480 for landscape and 480x640 for portrait
                 graphicOverlay.setPreviewSize(480, 640);
 
