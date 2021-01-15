@@ -14,7 +14,7 @@ public class BarcodeFoundGraphic extends BarcodeGraphicBase {
     private float strokeWidth = 4.0f;
     private Paint rectPaint;
     private Rect rect;
-    private com.codemitry.scanme.barcode.GraphicOverlay graphicOverlay;
+    private GraphicOverlay graphicOverlay;
 
     public BarcodeFoundGraphic(GraphicOverlay graphicOverlay, Barcode barcode) {
         super(graphicOverlay);

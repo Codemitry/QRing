@@ -58,23 +58,30 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
         outState.putBoolean(FLASH_KEY, isFlashEnabled);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        // disable the flash is required
-        if (isFlashEnabled)
-            camera.getCameraControl().enableTorch(false);
-    }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
 
         // enable the flash if it's true
         if (camera != null)
             camera.getCameraControl().enableTorch(isFlashEnabled);
+
+//        if (cameraProvider != null)
+//            startPreview();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // disable the flash is required
+        if (isFlashEnabled)
+            camera.getCameraControl().enableTorch(false);
+
+//        stopCamera();
+    }
+
 
     @Nullable
     @Override
@@ -82,6 +89,8 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
         View view = inflater.inflate(R.layout.fragment_scan_qr, container, false);
         flashButton = view.findViewById(R.id.flash);
         graphicOverlay = view.findViewById(R.id.graphicOverlay);
+        // должно убрать черный квадрат при сканировании
+        graphicOverlay.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         view.findViewById(R.id.history).setOnClickListener((View v) -> onHistoryClickListener.onHistoryClick());
 
         historyActionsManager = new ViewModelProvider(requireActivity()).get(HistoryActionsManager.class);
@@ -97,7 +106,7 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
             isFlashEnabled = savedInstanceState.getBoolean(FLASH_KEY);
         }
 
-        assert getActivity() != null; // *** assert ***
+//        assert getActivity() != null; // *** assert ***
 
         if (allPermissionsGranted()) {
             startCamera();
@@ -126,9 +135,9 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
     private boolean allPermissionsGranted() {
         for (String permission : REQUIRED_PERMISSIONS) {
 
-            assert getContext() != null;  // *** assert ***
+//            assert getContext() != null;  // *** assert ***
 
-            int permissionStatus = ContextCompat.checkSelfPermission(getContext(), permission);
+            int permissionStatus = ContextCompat.checkSelfPermission(requireContext(), permission);
             if (permissionStatus != PackageManager.PERMISSION_GRANTED)
                 return false;
         }

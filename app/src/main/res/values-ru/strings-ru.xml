@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permissions_not_granted">Разрешения не получены пользователем</string>
+    <string name="scan">Сканировать</string>
+    <string name="create">Создать</string>
+    <string name="qr_scanning">Сканирование</string>
+    <string name="qr_creation">Создание</string>
+    <string name="history">История</string>
+    <string name="text">Текст</string>
+    <string name="copied">Скопировано</string>
+    <string name="link">Ссылка</string>
+    <string name="open_link">Открыть ссылку</string>
+    <string name="connect">Подключиться</string>
+    <string name="send">Отправить</string>
+    <string name="address">Адрес</string>
+    <string name="subject">Тема</string>
+    <string name="message">Сообщение</string>
+    <string name="send_email">Отправить email…</string>
+    <string name="number">Номер</string>
+    <string name="add_contact">Добавить контакт</string>
+    <string name="person">Имя</string>
+    <string name="company">Компания</string>
+    <string name="job">Должность</string>
+    <string name="website">Вебсайт</string>
+    <string name="location">Местоположение</string>
+    <string name="latitude">Широта</string>
+    <string name="longitude">Долгота</string>
+    <string name="open">Открыть</string>
+    <string name="event">Событие</string>
+    <string name="when">Когда</string>
+    <string name="what">Что</string>
+    <string name="add_to_calendar">Добавить в календарь</string>
+    <string name="at">в</string>
+</resources>

@@ -7,15 +7,13 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.codemitry.scanme.OnHistoryClickListener;
 import com.codemitry.scanme.R;
 import com.codemitry.scanme.history.HistoryActionsManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.mlkit.vision.barcode.Barcode;
-
-//import com.google.android.gms.vision.barcode.Barcode;
 
 
 public class MainActivity extends AppCompatActivity implements OnHistoryClickListener {
@@ -26,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements OnHistoryClickLis
     private CreateQRFragment createQRFragment;
     private ScanQRFragment scanQRFragment;
     private HistoryFragment historyFragment;
-    private BarcodeResultFragment barcodeResultFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +32,20 @@ public class MainActivity extends AppCompatActivity implements OnHistoryClickLis
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);
 
+        // Убирает всплывающие подсказки при долгом удержании item
+        int len = bottomNavigationView.getMenu().size();
+        for (int i = 0; i < len; i++) {
+            TooltipCompat.setTooltipText(findViewById(bottomNavigationView.getMenu().getItem(i).getItemId()), null);
+        }
+
         bottomNavigationView.setOnNavigationItemSelectedListener((@NonNull MenuItem item) -> {
-            switch (item.getItemId()) {
-                case R.id.create:
-                    startCreateQRFragment();
-                    break;
-                case R.id.scan:
-                    startScanQRFragment();
-                    break;
-            }
+            int id = item.getItemId();
+
+            if (id == R.id.create)
+                startCreateQRFragment();
+            else if (id == R.id.scan)
+                startScanQRFragment();
+
             return true;
         });
 
@@ -53,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements OnHistoryClickLis
 
         HistoryActionsManager historyActionsManager = new ViewModelProvider(this).get(HistoryActionsManager.class);
         historyActionsManager.setPath(getFilesDir());
-//        historyActionsManager.getHistoryActions();
-//        historyActionsManager.addHistoryAction(new HistoryAction(HistoryAction.Actions.SCAN, new com.google.android.gms.vision.barcode.Barcode(0, "Hello world", null, 0, null, null, null, null, null, null, null, null, null, null, null, false)));
     }
 
 
@@ -100,21 +100,11 @@ public class MainActivity extends AppCompatActivity implements OnHistoryClickLis
                 .commit();
     }
 
-    private void startBarcodeResultFragment(Barcode barcode) {
-        barcodeResultFragment = new BarcodeResultFragment(com.codemitry.scanme.barcode.Barcode.getBarcode(barcode));
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, barcodeResultFragment)
-                .addToBackStack(barcodeResultFragment.getClass().getSimpleName())
-                .commit();
-    }
-
     @Override
     public void onBackPressed() {
         // Если отображается фрагмент с историей, то нужно вернуть bottom navigation
         if (getSupportFragmentManager().findFragmentByTag(HistoryFragment.class.getSimpleName()) != null) {
             showBottomNavigation();
-        } else if (getSupportFragmentManager().findFragmentByTag(BarcodeResultFragment.class.getSimpleName()) != null) {
-            System.out.println("Yeah!!! Visible!!");
         }
         super.onBackPressed();
     }

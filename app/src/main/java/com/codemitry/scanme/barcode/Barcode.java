@@ -37,15 +37,15 @@ public class Barcode implements Serializable {
     public int valueFormat;
     public byte[] rawBytes;
 
-    public Barcode.Email email;
-    public Barcode.Phone phone;
-    public Barcode.Sms sms;
-    public Barcode.WiFi wifi;
-    public Barcode.Url url;
-    public Barcode.GeoPoint geoPoint;
-    public Barcode.CalendarEvent calendarEvent;
-    public Barcode.ContactInfo contactInfo;
-    public Barcode.DriverLicense driverLicense;
+    public Email email;
+    public Phone phone;
+    public Sms sms;
+    public WiFi wifi;
+    public Url url;
+    public GeoPoint geoPoint;
+    public CalendarEvent calendarEvent;
+    public ContactInfo contactInfo;
+    public DriverLicense driverLicense;
 
     public int getValueType() {
         return valueFormat;
@@ -195,48 +195,12 @@ public class Barcode implements Serializable {
 
     }
 
-    public static class CalendarEvent implements Serializable {
-        public String summary;
-        public String description;
-        public String location;
-        public String organizer;
-        public String status;
-        public Barcode.CalendarDateTime start;
-        public Barcode.CalendarDateTime end;
-
-        public CalendarEvent(String summary, String description, String location, String organizer,
-                             String status, Barcode.CalendarDateTime start,
-                             Barcode.CalendarDateTime end) {
-            this.summary = summary;
-            this.description = description;
-            this.location = location;
-            this.organizer = organizer;
-            this.status = status;
-            this.start = start;
-            this.end = end;
-        }
+    private static Sms getSms(com.google.mlkit.vision.barcode.Barcode.Sms from) {
+        return new Sms(from.getMessage(), from.getPhoneNumber());
     }
 
-    public static class ContactInfo implements Serializable {
-        public Barcode.PersonName name;
-        public String organization;
-        public String title;
-        public Barcode.Phone[] phones;
-        public Barcode.Email[] emails;
-        public String[] urls;
-        public Barcode.Address[] addresses;
-
-        public ContactInfo(Barcode.PersonName name, String organization, String title,
-                           Barcode.Phone[] phones, Barcode.Email[] emails, String[] urls,
-                           Barcode.Address[] addresses) {
-            this.name = name;
-            this.organization = organization;
-            this.title = title;
-            this.phones = phones;
-            this.emails = emails;
-            this.urls = urls;
-            this.addresses = addresses;
-        }
+    private static Url getUrl(com.google.mlkit.vision.barcode.Barcode.UrlBookmark from) {
+        return new Url(from.getTitle(), from.getUrl());
     }
 
     public static class DriverLicense implements Serializable {
@@ -368,24 +332,16 @@ public class Barcode implements Serializable {
         return newBarcode;
     }
 
-    private static Barcode.Sms getSms(com.google.mlkit.vision.barcode.Barcode.Sms from) {
-        return new Barcode.Sms(from.getMessage(), from.getPhoneNumber());
+    private static WiFi getWiFi(com.google.mlkit.vision.barcode.Barcode.WiFi from) {
+        return new WiFi(from.getSsid(), from.getPassword(), from.getEncryptionType());
     }
 
-    private static Barcode.Url getUrl(com.google.mlkit.vision.barcode.Barcode.UrlBookmark from) {
-        return new Barcode.Url(from.getTitle(), from.getUrl());
+    private static GeoPoint getGeo(com.google.mlkit.vision.barcode.Barcode.GeoPoint from) {
+        return new GeoPoint(from.getLat(), from.getLng());
     }
 
-    private static Barcode.WiFi getWiFi(com.google.mlkit.vision.barcode.Barcode.WiFi from) {
-        return new Barcode.WiFi(from.getSsid(), from.getPassword(), from.getEncryptionType());
-    }
-
-    private static Barcode.GeoPoint getGeo(com.google.mlkit.vision.barcode.Barcode.GeoPoint from) {
-        return new Barcode.GeoPoint(from.getLat(), from.getLng());
-    }
-
-    private static Barcode.CalendarDateTime getCalendarDateTime(com.google.mlkit.vision.barcode.Barcode.CalendarDateTime from) {
-        return new Barcode.CalendarDateTime(
+    private static CalendarDateTime getCalendarDateTime(com.google.mlkit.vision.barcode.Barcode.CalendarDateTime from) {
+        return new CalendarDateTime(
                 from.getYear(),
                 from.getMonth(),
                 from.getDay(),
@@ -397,8 +353,8 @@ public class Barcode implements Serializable {
         );
     }
 
-    private static Barcode.CalendarEvent getCalendarEvent(com.google.mlkit.vision.barcode.Barcode.CalendarEvent from) {
-        return new Barcode.CalendarEvent(
+    private static CalendarEvent getCalendarEvent(com.google.mlkit.vision.barcode.Barcode.CalendarEvent from) {
+        return new CalendarEvent(
                 from.getSummary(),
                 from.getDescription(),
                 from.getLocation(),
@@ -409,8 +365,8 @@ public class Barcode implements Serializable {
         );
     }
 
-    private static Barcode.DriverLicense getDriverLicence(com.google.mlkit.vision.barcode.Barcode.DriverLicense from) {
-        return new Barcode.DriverLicense(
+    private static DriverLicense getDriverLicence(com.google.mlkit.vision.barcode.Barcode.DriverLicense from) {
+        return new DriverLicense(
                 from.getDocumentType(),
                 from.getFirstName(),
                 from.getMiddleName(),
@@ -428,16 +384,16 @@ public class Barcode implements Serializable {
         );
     }
 
-    private static Barcode.Phone getPhone(com.google.mlkit.vision.barcode.Barcode.Phone from) {
-        return new Barcode.Phone(from.getType(), from.getNumber());
+    private static Phone getPhone(com.google.mlkit.vision.barcode.Barcode.Phone from) {
+        return new Phone(from.getType(), from.getNumber());
     }
 
-    private static Barcode.Email getEmail(com.google.mlkit.vision.barcode.Barcode.Email from) {
-        return new Barcode.Email(from.getType(), from.getAddress(), from.getSubject(), from.getBody());
+    private static Email getEmail(com.google.mlkit.vision.barcode.Barcode.Email from) {
+        return new Email(from.getType(), from.getAddress(), from.getSubject(), from.getBody());
     }
 
-    private static Barcode.PersonName getPersonName(com.google.mlkit.vision.barcode.Barcode.PersonName from) {
-        return new Barcode.PersonName(
+    private static PersonName getPersonName(com.google.mlkit.vision.barcode.Barcode.PersonName from) {
+        return new PersonName(
                 from.getFormattedName(),
                 from.getPronunciation(),
                 from.getPrefix(),
@@ -448,32 +404,66 @@ public class Barcode implements Serializable {
         );
     }
 
-    private static Barcode.Phone[] getPhones(List<com.google.mlkit.vision.barcode.Barcode.Phone> from) {
-        Barcode.Phone[] phones = new Barcode.Phone[from.size()];
+    private static Phone[] getPhones(List<com.google.mlkit.vision.barcode.Barcode.Phone> from) {
+        Phone[] phones = new Phone[from.size()];
         for (int i = 0; i < phones.length; i++) {
             phones[i] = getPhone(from.get(i));
         }
         return phones;
     }
 
-    private static Barcode.Email[] getEmails(List<com.google.mlkit.vision.barcode.Barcode.Email> from) {
-        Barcode.Email[] emails = new Barcode.Email[from.size()];
+    private static Email[] getEmails(List<com.google.mlkit.vision.barcode.Barcode.Email> from) {
+        Email[] emails = new Email[from.size()];
         for (int i = 0; i < emails.length; i++) {
             emails[i] = getEmail(from.get(i));
         }
         return emails;
     }
 
-    private static Barcode.Address getAddress(com.google.mlkit.vision.barcode.Barcode.Address from) {
-        return new Barcode.Address(from.getType(), from.getAddressLines());
+    private static Address getAddress(com.google.mlkit.vision.barcode.Barcode.Address from) {
+        return new Address(from.getType(), from.getAddressLines());
     }
 
-    private static Barcode.Address[] getAddresses(List<com.google.mlkit.vision.barcode.Barcode.Address> from) {
-        Barcode.Address[] addresses = new Barcode.Address[from.size()];
+    private static Address[] getAddresses(List<com.google.mlkit.vision.barcode.Barcode.Address> from) {
+        Address[] addresses = new Address[from.size()];
         for (int i = 0; i < addresses.length; i++) {
             addresses[i] = getAddress(from.get(i));
         }
         return addresses;
+    }
+
+    private static ContactInfo getContactInfo(com.google.mlkit.vision.barcode.Barcode.ContactInfo from) {
+        return new ContactInfo(
+                getPersonName(from.getName()),
+                from.getOrganization(),
+                from.getTitle(),
+                getPhones(from.getPhones()),
+                getEmails(from.getEmails()),
+                getUrls(from.getUrls()),
+                getAddresses(from.getAddresses())
+        );
+    }
+
+    public static class CalendarEvent implements Serializable {
+        public String summary;
+        public String description;
+        public String location;
+        public String organizer;
+        public String status;
+        public CalendarDateTime start;
+        public CalendarDateTime end;
+
+        public CalendarEvent(String summary, String description, String location, String organizer,
+                             String status, CalendarDateTime start,
+                             CalendarDateTime end) {
+            this.summary = summary;
+            this.description = description;
+            this.location = location;
+            this.organizer = organizer;
+            this.status = status;
+            this.start = start;
+            this.end = end;
+        }
     }
 
     private static String[] getUrls(List<String> from) {
@@ -484,17 +474,26 @@ public class Barcode implements Serializable {
         return urls;
     }
 
+    public static class ContactInfo implements Serializable {
+        public PersonName name;
+        public String organization;
+        public String title;
+        public Phone[] phones;
+        public Email[] emails;
+        public String[] urls;
+        public Address[] addresses;
 
-    private static Barcode.ContactInfo getContactInfo(com.google.mlkit.vision.barcode.Barcode.ContactInfo from) {
-        return new Barcode.ContactInfo(
-                getPersonName(from.getName()),
-                from.getOrganization(),
-                from.getTitle(),
-                getPhones(from.getPhones()),
-                getEmails(from.getEmails()),
-                getUrls(from.getUrls()),
-                getAddresses(from.getAddresses())
-        );
+        public ContactInfo(PersonName name, String organization, String title,
+                           Phone[] phones, Email[] emails, String[] urls,
+                           Address[] addresses) {
+            this.name = name;
+            this.organization = organization;
+            this.title = title;
+            this.phones = phones;
+            this.emails = emails;
+            this.urls = urls;
+            this.addresses = addresses;
+        }
     }
 
 }

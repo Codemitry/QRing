@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    style="@style/CardResultScan"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/LayoutResultScan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+
+            android:src="@drawable/wifi"
+            android:tint="@color/gray_800"
+
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/TitleResultScan"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:text="@string/wifi"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/icon" />
+
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/copy"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+
+        <!--            android:src="@drawable/copy"-->
+        <!--            android:scaleX="0.75"-->
+        <!--            android:scaleY="0.75"-->
+
+        <!--            android:background="?selectableItemBackground"-->
+
+        <!--            android:layout_marginEnd="10dp"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:layout_constraintBottom_toTopOf="@id/titleDivider"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent" />-->
+
+        <View
+            android:id="@+id/titleDivider"
+            style="@style/TitleDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+
+            />
+
+        <TextView
+            android:id="@+id/ssidText"
+            style="@style/TextResultScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/ssid"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleDivider" />
+
+        <TextView
+            android:id="@+id/ssid"
+            style="@style/TextResultScan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="15dp"
+
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintStart_toEndOf="@id/ssidText"
+            app:layout_constraintTop_toBottomOf="@id/titleDivider"
+            tools:text="Codemitry"
+
+            />
+
+        <Button
+            android:id="@+id/connectWifi"
+            style="@style/ButtonResultScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="20dp"
+
+            android:layout_marginBottom="10dp"
+            android:text="@string/connect"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ssid" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

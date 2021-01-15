@@ -37,7 +37,14 @@ public class HistoryActionsAdapter extends RecyclerView.Adapter<HistoryActionsAd
         // Получение текста  и его установка для соответствующего action из HistoryAction
         holder.setAction(holder.action.getContext().getResources().getString(HistoryAction.Actions.getString(action.getAction())));
 
-        holder.setBarcodeData(action.getBarcode().displayValue);
+        switch (action.getBarcode().valueFormat) {
+            case Barcode.WIFI:
+                holder.setBarcodeData(action.getBarcode().wifi.ssid);
+                break;
+
+            default:
+                holder.setBarcodeData(action.getBarcode().displayValue);
+        }
 
         holder.itemView.setOnClickListener((View view) -> {
             if (onHistoryActionClickListener != null) {

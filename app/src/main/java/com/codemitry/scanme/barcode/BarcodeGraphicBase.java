@@ -23,18 +23,20 @@ class BarcodeGraphicBase extends GraphicOverlay.Graphic {
         scrimPaint.setColor(ContextCompat.getColor(context, R.color.scrimColor));
     }
 
-    Paint eraserPaint = new Paint();
-
-    {
-        eraserPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-    }
-
     Paint boxPaint = new Paint();
 
     {
         boxPaint.setColor(ContextCompat.getColor(context, R.color.barcode_reticle_stroke));
         boxPaint.setStyle(Paint.Style.STROKE);
         boxPaint.setStrokeWidth(context.getResources().getDimension(R.dimen.barcode_reticle_stroke_width));
+    }
+
+    Paint eraserPaint = new Paint();
+
+    {
+
+        eraserPaint.setStrokeWidth(boxPaint.getStrokeWidth());
+        eraserPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
     }
 
     Paint pathPaint = new Paint();

@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">@color/gray_900</color>
+    <color name="colorPrimaryDark">@color/gray_700</color>
+    <color name="colorAccent">@color/gray_600</color>
 
     <color name="scrimColor">#B3000000</color>
     <color name="reticle_ripple">#9AFFFFFF</color>
     <color name="barcode_reticle_stroke">#40000000</color>
 
     <color name="titleDividerColor">#555555</color>
+    <color name="bodyDividerColor">#B38A8A8A</color>
+
+    <color name="button_result_scan_stroke">#333333</color>
+
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_600">#757575</color>
+    <color name="gray_700">#616161</color>
+    <color name="gray_800">#424242</color>
+    <color name="gray_900">#212121</color>
 
 </resources>
