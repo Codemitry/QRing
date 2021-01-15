@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.codemitry.scanme"
@@ -52,5 +52,7 @@ dependencies {
 
     // view model
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+
+    implementation project(':qr_generator-lib')
     
 }

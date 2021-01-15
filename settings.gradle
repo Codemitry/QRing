@@ -1,2 +1,3 @@
+include ':qr_generator-lib'
 include ':app'
 rootProject.name = "Scan me"
