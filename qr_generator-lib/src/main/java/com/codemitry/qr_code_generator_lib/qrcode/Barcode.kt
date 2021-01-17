@@ -26,6 +26,8 @@ const val MAX_VERSION = 40
 @ExperimentalUnsignedTypes
 class Barcode(data: String, val correction: ErrorCorrectionLevels, var mask: Int) {
     constructor(data: String, correction: ErrorCorrectionLevels) : this(data, correction, 0)
+    constructor(data: FormattedByte, correction: ErrorCorrectionLevels, mask: Int) : this(data.formatted, correction, mask)
+    constructor(data: FormattedByte, correction: ErrorCorrectionLevels) : this(data.formatted, correction, 0)
 
     var version = 0
         private set

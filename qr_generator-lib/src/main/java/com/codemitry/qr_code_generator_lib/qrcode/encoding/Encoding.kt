@@ -28,6 +28,10 @@ interface FormattedByte {
     val formatted: String
 }
 
+data class Text(val text: String) : FormattedByte {
+    override val formatted = text
+}
+
 data class Url(val url: String) : FormattedByte {
     override val formatted = "URL:$url"
 }
