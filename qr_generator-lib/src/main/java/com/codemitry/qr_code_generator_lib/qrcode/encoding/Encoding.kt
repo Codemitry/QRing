@@ -19,3 +19,61 @@ fun charCountIndicator(data: String, version: Int, encoding: DataConverter.Encod
     }
     return charCountIndicator.toString()
 }
+
+enum class ByteFormats {
+    TEXT, URL, PHONE, SMS, EMAIL_ADDRESS, EMAIL, LOCATION, WIFI, VCARD
+}
+
+interface FormattedByte {
+    val formatted: String
+}
+
+data class Url(val url: String) : FormattedByte {
+    override val formatted = "URL:$url"
+}
+
+data class Phone(val phone: String) : FormattedByte {
+    override val formatted = "tel:$phone"
+}
+
+data class Sms(val phone: String, val message: String) : FormattedByte {
+    override val formatted = "smsto:$phone:$message"
+}
+
+data class EmailAddress(val address: String) : FormattedByte {
+    override val formatted = "mailto:$address"
+}
+
+data class Email(val address: String, val topic: String, val message: String) : FormattedByte {
+    constructor(address: String, message: String) : this(address, "", message)
+
+    // TODO: Maybe empty topic allowed to remove?
+    override val formatted = "MATMSG:TO:$address;SUB:$topic;Body:$message;;"
+}
+
+data class Location(val latitude: String, val longitude: String) : FormattedByte {
+    override val formatted = "geo:$latitude,$longitude"
+}
+
+data class WiFi(val encryption: Encryptions, val ssid: String, val password: String, val hidden: Boolean) : FormattedByte {
+
+    enum class Encryptions {
+        OPEN, WEP, WPA, WPA2_EAP;
+
+        fun value(): String =
+                when (this) {
+                    OPEN -> ""
+                    WEP -> "WEP"
+                    WPA -> "WPA"
+                    WPA2_EAP -> "WPA2-EAP"
+                }
+    }
+
+    override val formatted = "WIFI:T:${encryption.value()};S:$ssid;P:$password;H:$hidden;;"
+}
+
+data class VCard(val name: String, val surname: String, val phone: String, val email: String,
+                 val description: String, val birthday: String, val address: String,
+                 val website: String, val nickname: String) : FormattedByte {
+    override val formatted = "MECARD:N:$name,$surname;TEL:$phone;EMAIL:$email;NOTE:$description;BDAY:$birthday;ADR:$address;URL:$website;NICKNAME:$nickname;;"
+}

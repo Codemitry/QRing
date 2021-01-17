@@ -8,6 +8,10 @@ import com.codemitry.qr_code_generator_lib.qrcode.encoding.DataConverter.getEnco
 import com.codemitry.qr_code_generator_lib.qrcode.encoding.DataConverter.getModeIndicator
 import java.util.*
 
+enum class Formats {
+    TEXT, URL, EMAIL, CONTACT_INFO, PHONE, SMS, WIFI, GEO, CALENDAR_EVENT, DRIVER_LICENSE, ISBN, PRODUCT
+}
+
 enum class ModuleTypes {
     FINDER, ALIGNMENT, TIMING, DATA, DARK_MODULE, CORRECTION_MASK, VERSION
 }
