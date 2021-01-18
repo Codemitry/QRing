@@ -36,4 +36,26 @@
     <string name="what">What</string>
     <string name="add_to_calendar">Add to calendar</string>
     <string name="at">at</string>
+    <string name="format">Format</string>
+    <string name="create_own_code">Create your own code</string>
+    <string name="write_here">Write here…</string>
+    <string name="next">Next</string>
+
+    <string name="correction">Correction</string>
+    <string name="correction_L" translatable="false">L</string>
+    <string name="correction_M" translatable="false">M</string>
+    <string name="correction_Q" translatable="false">Q</string>
+    <string name="correction_H" translatable="false">H</string>
+
+    <string name="correction_level">Correction level</string>
+    <string name="about_correction">Error correction level is a level of data encryption when it encoded. Due to anti-jamming coding scanners can read damaged codes.\n\n
+    There are four error correction levels:
+        \n\t\t●\tL  (Low) Allow restoring of 7% damaged data
+        \n\t\t●\tM  (Medium) Allow restoring of 15% damaged data
+        \n\t\t●\tQ  (Quartile) Allow restoring of 25% damaged data
+        \n\t\t●\tH  (High)Allow restoring of 30% damaged data
+        \n\nFor QR codes with a picture, High-level is used
+    </string>
+
+
 </resources>

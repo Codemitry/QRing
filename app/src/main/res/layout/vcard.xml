@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    style="@style/CardResultScan"
+    style="@style/Card"
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -27,8 +27,8 @@
                 android:scaleX="0.75"
                 android:scaleY="0.75"
 
-                android:src="@drawable/contact"
-                android:tint="@color/gray_800"
+                android:src="@drawable/vcard"
+                app:tint="@color/gray_800"
 
                 app:layout_constraintBottom_toBottomOf="@id/title"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,7 @@
 
             <TextView
                 android:id="@+id/title"
-                style="@style/TitleResultScan"
+                style="@style/Text.TitleText"
                 android:layout_width="wrap_content"
 
                 android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
 
                 <TextView
                     android:id="@+id/nameText"
-                    style="@style/TextResultScan"
+                    style="@style/Text"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
 
                 <TextView
                     android:id="@+id/name"
-                    style="@style/SubTextResultScan"
+                    style="@style/Text.SubText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -126,7 +126,7 @@
 
                 <TextView
                     android:id="@+id/numberText"
-                    style="@style/TextResultScan"
+                    style="@style/Text"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
 
                 <TextView
                     android:id="@+id/number"
-                    style="@style/SubTextResultScan"
+                    style="@style/Text.SubText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -179,7 +179,7 @@
 
                 <TextView
                     android:id="@+id/emailText"
-                    style="@style/TextResultScan"
+                    style="@style/Text"
 
                     android:layout_width="wrap_content"
 
@@ -190,7 +190,7 @@
 
                 <TextView
                     android:id="@+id/email"
-                    style="@style/SubTextResultScan"
+                    style="@style/Text.SubText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -232,7 +232,7 @@
 
                 <TextView
                     android:id="@+id/companyText"
-                    style="@style/TextResultScan"
+                    style="@style/Text"
 
                     android:layout_width="wrap_content"
 
@@ -243,7 +243,7 @@
 
                 <TextView
                     android:id="@+id/company"
-                    style="@style/SubTextResultScan"
+                    style="@style/Text.SubText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -283,7 +283,7 @@
 
                 <TextView
                     android:id="@+id/jobText"
-                    style="@style/TextResultScan"
+                    style="@style/Text"
 
                     android:layout_width="wrap_content"
 
@@ -294,7 +294,7 @@
 
                 <TextView
                     android:id="@+id/job"
-                    style="@style/SubTextResultScan"
+                    style="@style/Text.SubText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -333,7 +333,7 @@
 
                 <TextView
                     android:id="@+id/addressText"
-                    style="@style/TextResultScan"
+                    style="@style/Text"
 
                     android:layout_width="wrap_content"
 
@@ -344,7 +344,7 @@
 
                 <TextView
                     android:id="@+id/address"
-                    style="@style/SubTextResultScan"
+                    style="@style/Text.SubText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -383,7 +383,7 @@
 
                 <TextView
                     android:id="@+id/websiteText"
-                    style="@style/TextResultScan"
+                    style="@style/Text"
 
                     android:layout_width="wrap_content"
 
@@ -394,7 +394,7 @@
 
                 <TextView
                     android:id="@+id/website"
-                    style="@style/SubTextResultScan"
+                    style="@style/Text.SubText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -410,7 +410,7 @@
 
             <Button
                 android:id="@+id/addContact"
-                style="@style/ButtonResultScan"
+                style="@style/Button.Outlined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 

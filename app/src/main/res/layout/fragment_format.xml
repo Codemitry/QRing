@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/formatLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="50dp"
+
+        android:gravity="center_vertical"
+
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:paddingVertical="15dp"
+            android:text="@string/format"
+
+            android:textIsSelectable="false" />
+
+        <Button
+            android:id="@+id/formatButton"
+            style="@style/Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:visibility="gone"
+
+            app:icon="@drawable/clear"
+            app:iconGravity="end"
+            tools:text="text" />
+    </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/formatCard"
+        style="@style/Card"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+
+        android:paddingVertical="10dp">
+
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexFormat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="20dp"
+
+            app:flexDirection="row"
+
+            app:flexWrap="wrap"
+            app:justifyContent="center"
+
+            >
+
+            <Button
+                android:id="@+id/text"
+                style="@style/Button.TextButton.Margined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/text"
+                app:icon="@drawable/text" />
+
+            <Button
+                android:id="@+id/link"
+                style="@style/Button.TextButton.Margined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/link"
+                app:icon="@drawable/link" />
+
+            <Button
+                android:id="@+id/wifi"
+                style="@style/Button.TextButton.Margined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/wifi"
+                app:icon="@drawable/wifi" />
+
+
+            <Button
+                android:id="@+id/email"
+                style="@style/Button.TextButton.Margined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/email"
+                app:icon="@drawable/email" />
+
+            <Button
+                android:id="@+id/sms"
+                style="@style/Button.TextButton.Margined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/sms"
+                app:icon="@drawable/sms" />
+
+            <Button
+                android:id="@+id/vcard"
+                style="@style/Button.TextButton.Margined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/vcard"
+                app:icon="@drawable/vcard" />
+
+            <Button
+                android:id="@+id/location"
+                style="@style/Button.TextButton.Margined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/location"
+                app:icon="@drawable/location" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/dataCard"
+        style="@style/Card"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:paddingVertical="10dp"
+
+        android:visibility="gone">
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/nextDataButton"
+        style="@style/Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
+
+        android:enabled="false"
+        android:text="@string/next" />
+</LinearLayout>

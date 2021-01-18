@@ -31,4 +31,19 @@
     <string name="what">Что</string>
     <string name="add_to_calendar">Добавить в календарь</string>
     <string name="at">в</string>
+    <string name="format">Формат</string>
+    <string name="create_own_code">Создать свой код</string>
+    <string name="write_here">Пишите здесь…</string>
+    <string name="next">Далее</string>
+    <string name="correction">Коррекция</string>
+
+    <string name="correction_level">Уровень коррекции</string>
+    <string name="about_correction">Уровень коррекции ошибок - это уровень кодирования данных для их нанесения на графическое изображение. Благодаря помехоустойчивому кодированию QR-сканеры могут считать поврежденные коды.\n\n
+    Существует 4 уровня коррекции:
+        \n\t\t●\tL  (Low) Возможно восстановить до 7% поврежденных данных
+        \n\t\t●\tM  (Medium) Возможно восстановить до 15% поврежденных данных
+        \n\t\t●\tQ  (Quartile) Возможно восстановить до 25% поврежденных данных
+        \n\t\t●\tH  (High) Возможно восстановить до 30% поврежденных данных
+        \n\nДля QR-кодов с картинкой посередине используется уровень H
+    </string>
 </resources>

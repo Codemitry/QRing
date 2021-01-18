@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    style="@style/CardResultScan"
+    style="@style/Card"
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -21,7 +21,7 @@
             android:scaleY="0.75"
 
             android:src="@drawable/link"
-            android:tint="@color/gray_800"
+            app:tint="@color/gray_800"
 
             app:layout_constraintBottom_toBottomOf="@id/title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/title"
-            style="@style/TitleResultScan"
+            style="@style/Text.TitleText"
             android:layout_width="wrap_content"
 
             android:layout_height="wrap_content"
@@ -52,6 +52,7 @@
             android:scaleY="0.75"
 
             android:src="@drawable/copy"
+
             app:layout_constraintBottom_toTopOf="@id/titleDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -70,7 +71,7 @@
 
         <TextView
             android:id="@+id/link"
-            style="@style/TextResultScan"
+            style="@style/Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -87,7 +88,7 @@
 
         <Button
             android:id="@+id/openLink"
-            style="@style/ButtonResultScan"
+            style="@style/Button.Outlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 

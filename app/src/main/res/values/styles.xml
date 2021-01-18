@@ -1,26 +1,19 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:windowBackground">@color/gray_100</item>
-    </style>
-
-    <style name="HistoryTitle" parent="Widget.MaterialComponents.TextView">
-        <item name="android:textSize">32sp</item>
-        <item name="android:textColor">@color/gray_900</item>
-        <item name="android:textStyle">bold</item>
-
         <item name="fontFamily">sans-serif-medium</item>
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:letterSpacing">0.0892857143</item>
+
+        <item name="android:windowBackground">@color/gray_200</item>
     </style>
 
-    <style name="CardResultScan" parent="CardView">
+    <style name="Card" parent="CardView">
+        <item name="android:backgroundTint">@color/gray_200</item>
         <item name="cardCornerRadius">25dp</item>
         <item name="android:layout_marginStart">10dp</item>
         <item name="android:layout_marginEnd">10dp</item>
@@ -34,38 +27,37 @@
         <item name="android:paddingBottom">20dp</item>
     </style>
 
-    <style name="TitleResultScan" parent="Widget.MaterialComponents.TextView">
-        <item name="android:textSize">32sp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/gray_800</item>
-
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:letterSpacing">0.0892857143</item>
-
-        <!--        <item name="android:layout_marginTop">5dp</item>-->
-        <!--        <item name="layout_constraintTop_toTopOf">parent</item>-->
-        <!--        <item name="layout_constraintStart_toStartOf">parent</item>-->
-        <!--        <item name="layout_constraintEnd_toEndOf">parent</item>-->
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">@color/gray_600</item>
+        <item name="android:textColorHint">@color/gray_500</item>
+        <!--        <item name="backgroundTint">@android:color/holo_red_dark</item>-->
+        <item name="android:backgroundTint">@color/gray_500</item>
     </style>
 
-    <style name="TextResultScan" parent="Widget.MaterialComponents.TextView">
+    <style name="Text" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">22sp</item>
-
         <item name="android:textColor">@color/gray_700</item>
         <item name="fontFamily">sans-serif-medium</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:letterSpacing">0.05</item>
+
+        <item name="android:textIsSelectable">true</item>
+
+        <item name="android:includeFontPadding">false</item>
     </style>
 
-    <style name="SubTextResultScan" parent="Widget.MaterialComponents.TextView">
-        <item name="android:textSize">18sp</item>
-
+    <style name="Text.TitleText" parent="Text">
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:gravity">center</item>
         <item name="android:textColor">@color/gray_800</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.09</item>
+    </style>
 
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+    <style name="Text.SubText" parent="Text">
+        <item name="android:textSize">@dimen/sub_text_size</item>
+        <item name="android:textColor">@color/gray_800</item>
         <item name="android:letterSpacing">0.04</item>
     </style>
 
@@ -81,14 +73,43 @@
         <item name="android:background">@color/bodyDividerColor</item>
     </style>
 
-    <style name="ButtonResultScan" parent="TextAppearance.MaterialComponents.Button">
-        <item name="android:background">@drawable/button_result_scan_rect</item>
+    <style name="Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textAllCaps">false</item>
+
         <!-- Убирает тень от кнопки -->
         <item name="android:stateListAnimator">@null</item>
 
+        <item name="android:includeFontPadding">false</item>
+
+        <item name="backgroundTint">@color/gray_200</item>
+        <item name="cornerRadius">@dimen/button_corners</item>
+        <item name="rippleColor">@color/gray_600</item>
+        <item name="android:textColor">@drawable/button_text_color</item>
+
+        <item name="iconGravity">start</item>
+        <item name="iconTint">@color/gray_700</item>
+        <item name="iconSize">@dimen/icon_size</item>
+
         <item name="android:paddingStart">25dp</item>
         <item name="android:paddingEnd">25dp</item>
+    </style>
+
+    <style name="Button.Outlined" parent="Button">
+        <item name="strokeColor">@drawable/button_text_color</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+
+    <style name="Button.TextButton" parent="Button">
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Button.TextButton.Margined" parent="Button.TextButton">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
     </style>
 
 

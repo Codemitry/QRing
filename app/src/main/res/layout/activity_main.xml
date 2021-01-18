@@ -23,6 +23,7 @@
         app:menu="@menu/bottom_menu"
 
         android:background="@color/gray_200"
+        app:itemTextColor="@drawable/bottom_navigation_item_colors"
 
         android:longClickable="false"
         app:itemIconTint="@drawable/bottom_navigation_item_colors"

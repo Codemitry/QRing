@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/correctionLayout"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp"
+
+    android:orientation="vertical"
+    tools:context=".ui.ErrorCorrectionFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:paddingVertical="15dp"
+
+            android:text="@string/correction"
+            android:textIsSelectable="false" />
+
+        <Button
+            android:id="@+id/helpCorrection"
+            style="@style/Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="10dp"
+            android:minHeight="15dp"
+            android:padding="0dp"
+
+            app:icon="@drawable/help" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/errorCorrectionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="5dp"
+
+        android:gravity="center"
+
+        android:orientation="horizontal">
+
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/correctionButtonGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:checkedButton="@id/correctionM"
+
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/correctionL"
+                style="@style/Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="10dp"
+
+                android:tag="L"
+                android:text="@string/correction_L" />
+
+            <Button
+                android:id="@+id/correctionM"
+                style="@style/Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="10dp"
+                android:tag="M"
+                android:text="@string/correction_M" />
+
+            <Button
+                android:id="@+id/correctionQ"
+                style="@style/Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minWidth="10dp"
+                android:tag="Q"
+                android:text="@string/correction_Q" />
+
+            <Button
+                android:id="@+id/correctionH"
+                style="@style/Button.Outlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minWidth="10dp"
+                android:tag="H"
+                android:text="@string/correction_H" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </LinearLayout>
+</LinearLayout>

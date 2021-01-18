@@ -20,8 +20,6 @@ import com.codemitry.scanme.history.HistoryActionsManager;
 
 import java.util.List;
 
-//import com.google.mlkit.vision.barcode.Barcode;
-
 public class HistoryFragment extends Fragment {
 
 
@@ -36,7 +34,7 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
-        recycler = view.findViewById(R.id.historyRecycler);
+        recycler = view.findViewById(R.id.historyList);
         LinearLayoutManager lim = new LinearLayoutManager(getContext());
         recycler.setLayoutManager(lim);
 

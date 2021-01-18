@@ -67,8 +67,15 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
         if (camera != null)
             camera.getCameraControl().enableTorch(isFlashEnabled);
 
-//        if (cameraProvider != null)
-//            startPreview();
+        com.codemitry.scanme.barcode.Barcode barcode = new com.codemitry.scanme.barcode.Barcode();
+        barcode.rawValue = "https://vk.com";
+        barcode.displayValue = barcode.rawValue;
+        barcode.url = new com.codemitry.scanme.barcode.Barcode.Url("Hello", barcode.rawValue);
+        barcode.format = 8;
+        barcode.valueFormat = 8;
+        historyActionsManager.addHistoryAction(new HistoryAction(HistoryAction.Actions.SCAN, barcode));
+        historyActionsManager.saveHistoryActions();
+
     }
 
     @Override
