@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Button
-import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import androidx.core.view.children
@@ -19,6 +18,7 @@ import com.codemitry.scanme.BarcodeDataAdapter
 import com.codemitry.scanme.R
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputLayout
 
 
 class FormatFragment(private val onFinish: (format: Formats, data: FormattedData) -> Unit) : Fragment() {
@@ -139,7 +139,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
             Formats.TEXT -> R.layout.input_text
             Formats.URL -> R.layout.input_url
             Formats.WIFI -> R.layout.input_text // TODO: Fix layout
-            Formats.EMAIL -> R.layout.input_text // TODO: Fix layout
+            Formats.EMAIL -> R.layout.input_email
             Formats.SMS -> R.layout.input_text // TODO: Fix layout
             Formats.CONTACT_INFO -> R.layout.input_text // TODO: Fix layout
             Formats.LOCATION -> R.layout.input_text // TODO: Fix layout
@@ -251,7 +251,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
     private fun configNextButtonState(format: Formats) {
         when (format) {
             Formats.TEXT -> {
-                dataCard.findViewById<EditText>(R.id.textInput).addTextChangedListener(object : TextWatcher {
+                dataCard.findViewById<TextInputLayout>(R.id.textInput).editText?.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
@@ -265,7 +265,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                 })
             }
             Formats.URL -> {
-                dataCard.findViewById<EditText>(R.id.linkInput).addTextChangedListener(object : TextWatcher {
+                dataCard.findViewById<TextInputLayout>(R.id.linkInput).editText?.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
@@ -279,7 +279,34 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                 })
             }
             Formats.WIFI -> R.layout.input_text // TODO: Fix layout
-            Formats.EMAIL -> R.layout.input_text // TODO: Fix layout
+            Formats.EMAIL -> {
+                val addressEditText = dataCard.findViewById<TextInputLayout>(R.id.addressInput).editText
+                val messageEditText = dataCard.findViewById<TextInputLayout>(R.id.messageInput).editText
+
+                addressEditText?.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(text: Editable?) {
+                        nextDataButton.isEnabled = (text?.length ?: 0 > 0 && messageEditText?.text?.isNotEmpty() ?: false)
+                    }
+                })
+
+                messageEditText?.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(text: Editable?) {
+                        nextDataButton.isEnabled = (text?.length ?: 0 > 0 && addressEditText?.text?.isNotEmpty() ?: false)
+                    }
+                })
+            }
             Formats.SMS -> R.layout.input_text // TODO: Fix layout
             Formats.CONTACT_INFO -> R.layout.input_text // TODO: Fix layout
             Formats.LOCATION -> R.layout.input_text // TODO: Fix layout
