@@ -24,44 +24,44 @@ enum class ByteFormats {
     TEXT, URL, PHONE, SMS, EMAIL_ADDRESS, EMAIL, LOCATION, WIFI, VCARD
 }
 
-interface FormattedByte {
+interface FormattedData {
     val formatted: String
 }
 
-data class Text(val text: String) : FormattedByte {
+data class Text(val text: String) : FormattedData {
     override val formatted = text
 }
 
-data class Url(val url: String) : FormattedByte {
+data class Url(val url: String) : FormattedData {
     override val formatted = "URL:$url"
 }
 
-data class Phone(val phone: String) : FormattedByte {
+data class Phone(val phone: String) : FormattedData {
     override val formatted = "tel:$phone"
 }
 
-data class Sms(val phone: String, val message: String) : FormattedByte {
+data class Sms(val phone: String, val message: String) : FormattedData {
     override val formatted = "smsto:$phone:$message"
 }
 
-data class EmailAddress(val address: String) : FormattedByte {
+data class EmailAddress(val address: String) : FormattedData {
     override val formatted = "mailto:$address"
 }
 
-data class Email(val address: String, val topic: String, val message: String) : FormattedByte {
+data class Email(val address: String, val topic: String, val message: String) : FormattedData {
     constructor(address: String, message: String) : this(address, "", message)
 
     // TODO: Maybe empty topic allowed to remove?
     override val formatted = "MATMSG:TO:$address;SUB:$topic;Body:$message;;"
 }
 
-data class Location(val latitude: String, val longitude: String) : FormattedByte {
+data class Location(val latitude: String, val longitude: String) : FormattedData {
     override val formatted = "geo:$latitude,$longitude"
 }
 
-data class WiFi(val encryption: Encryptions, val ssid: String, val password: String, val hidden: Boolean) : FormattedByte {
+data class WiFi(val encryption: Encryption, val ssid: String, val password: String, val hidden: Boolean) : FormattedData {
 
-    enum class Encryptions {
+    enum class Encryption {
         OPEN, WEP, WPA, WPA2_EAP;
 
         fun value(): String =
@@ -78,6 +78,6 @@ data class WiFi(val encryption: Encryptions, val ssid: String, val password: Str
 
 data class VCard(val name: String, val surname: String, val phone: String, val email: String,
                  val description: String, val birthday: String, val address: String,
-                 val website: String, val nickname: String) : FormattedByte {
+                 val website: String, val nickname: String) : FormattedData {
     override val formatted = "MECARD:N:$name,$surname;TEL:$phone;EMAIL:$email;NOTE:$description;BDAY:$birthday;ADR:$address;URL:$website;NICKNAME:$nickname;;"
 }
