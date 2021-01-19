@@ -137,7 +137,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
 
         val layout = when (qrFormat) {
             Formats.TEXT -> R.layout.input_text
-            Formats.URL -> R.layout.input_text // TODO: Fix layout
+            Formats.URL -> R.layout.input_url
             Formats.WIFI -> R.layout.input_text // TODO: Fix layout
             Formats.EMAIL -> R.layout.input_text // TODO: Fix layout
             Formats.SMS -> R.layout.input_text // TODO: Fix layout
@@ -264,7 +264,20 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
 
                 })
             }
-            Formats.URL -> R.layout.input_text // TODO: Fix layout
+            Formats.URL -> {
+                dataCard.findViewById<EditText>(R.id.linkInput).addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(text: Editable?) {
+                        nextDataButton.isEnabled = text?.length ?: 0 > 0
+                    }
+
+                })
+            }
             Formats.WIFI -> R.layout.input_text // TODO: Fix layout
             Formats.EMAIL -> R.layout.input_text // TODO: Fix layout
             Formats.SMS -> R.layout.input_text // TODO: Fix layout

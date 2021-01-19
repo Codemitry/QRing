@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     style="@style/LayoutResultScan"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -12,25 +13,27 @@
         android:scaleX="0.75"
         android:scaleY="0.75"
 
-        android:src="@drawable/text"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/link"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/gray_800" />
 
-
     <EditText
-        android:id="@+id/textInput"
+        android:id="@+id/linkInput"
         style="@style/EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:layout_marginTop="15dp"
-        android:hint="@string/write_here"
+        android:gravity="center"
+        android:hint="https://"
+
+        android:imeOptions="actionDone"
         app:layout_constraintTop_toBottomOf="@id/icon"
 
         />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
