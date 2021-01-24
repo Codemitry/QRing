@@ -49,4 +49,10 @@
     <string name="encryption">Шифрование</string>
     <string name="password">Пароль</string>
     <string name="hidden">Скрытая сеть</string>
+    <string name="phone">Телефон</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="nickName">Nickname</string>
+    <string name="birthday">День рождения</string>
+    <string name="description">Описание</string>
 </resources>

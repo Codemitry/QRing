@@ -43,6 +43,21 @@ class BarcodeDataAdapter(private val layout: ViewGroup, val format: Formats) {
                             layout.findViewById<CheckBox>(R.id.hiddenCheckBox).isChecked
                     )
                 }
+
+                Formats.CONTACT_INFO -> {
+                    formatted = VCard(
+                            layout.findViewById<TextInputLayout>(R.id.nameInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.surnameInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.phoneInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.emailInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.descriptionInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.birthdayInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.addressInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.webSiteInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.nickNameInput).editText?.text.toString()
+
+                    )
+                }
                 else -> formatted = Text("")
             }
             return formatted
@@ -69,6 +84,17 @@ class BarcodeDataAdapter(private val layout: ViewGroup, val format: Formats) {
                     layout.findViewById<TextInputLayout>(R.id.ssidInput).editText?.setText(data.ssid)
                     layout.findViewById<TextInputLayout>(R.id.passwordInput).editText?.setText(data.password)
                     layout.findViewById<CheckBox>(R.id.hiddenCheckBox).isChecked = data.hidden
+                }
+                is VCard -> {
+                    layout.findViewById<TextInputLayout>(R.id.nameInput)?.editText?.setText(data.name)
+                    layout.findViewById<TextInputLayout>(R.id.surnameInput)?.editText?.setText(data.surname)
+                    layout.findViewById<TextInputLayout>(R.id.phoneInput)?.editText?.setText(data.phone)
+                    layout.findViewById<TextInputLayout>(R.id.emailInput)?.editText?.setText(data.email)
+                    layout.findViewById<TextInputLayout>(R.id.descriptionInput)?.editText?.setText(data.description)
+                    layout.findViewById<TextInputLayout>(R.id.birthdayInput)?.editText?.setText(data.birthday)
+                    layout.findViewById<TextInputLayout>(R.id.addressInput)?.editText?.setText(data.address)
+                    layout.findViewById<TextInputLayout>(R.id.webSiteInput)?.editText?.setText(data.website)
+                    layout.findViewById<TextInputLayout>(R.id.nickNameInput)?.editText?.setText(data.nickname)
                 }
             }
         }

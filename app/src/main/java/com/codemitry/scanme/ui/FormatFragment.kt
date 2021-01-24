@@ -144,7 +144,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
             Formats.WIFI -> R.layout.input_wifi
             Formats.EMAIL -> R.layout.input_email
             Formats.SMS -> R.layout.input_sms
-            Formats.CONTACT_INFO -> R.layout.input_text // TODO: Fix layout
+            Formats.CONTACT_INFO -> R.layout.input_vcard
             Formats.LOCATION -> R.layout.input_text // TODO: Fix layout
 
             else -> R.layout.input_text // TODO: Fix layout
@@ -345,7 +345,20 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
 
                 })
             }
-            Formats.CONTACT_INFO -> R.layout.input_text // TODO: Fix layout
+            Formats.CONTACT_INFO -> {
+                dataCard.findViewById<TextInputLayout>(R.id.nameInput).editText?.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(text: Editable?) {
+                        nextDataButton.isEnabled = text?.length ?: 0 > 0
+                    }
+
+                })
+            }
             Formats.LOCATION -> R.layout.input_text // TODO: Fix layout
 
             else -> R.layout.input_text // TODO: Fix layout

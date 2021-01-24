@@ -59,5 +59,11 @@
     <string name="encryption">Encryption</string>
     <string name="password">Password</string>
     <string name="hidden">Hidden</string>
+    <string name="phone">Phone</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="nickName">Nickname</string>
+    <string name="birthday">Birthdaay</string>
+    <string name="description">Description</string>
 
 </resources>
