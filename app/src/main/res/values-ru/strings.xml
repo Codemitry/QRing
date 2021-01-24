@@ -46,4 +46,7 @@
         \n\t\t●\tH  (High) Возможно восстановить до 30% поврежденных данных
         \n\nДля QR-кодов с картинкой посередине используется уровень H
     </string>
+    <string name="encryption">Шифрование</string>
+    <string name="password">Пароль</string>
+    <string name="hidden">Скрытая сеть</string>
 </resources>

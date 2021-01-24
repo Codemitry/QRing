@@ -53,9 +53,11 @@
         \n\t\t●\tL  (Low) Allow restoring of 7% damaged data
         \n\t\t●\tM  (Medium) Allow restoring of 15% damaged data
         \n\t\t●\tQ  (Quartile) Allow restoring of 25% damaged data
-        \n\t\t●\tH  (High)Allow restoring of 30% damaged data
+        \n\t\t●\tH  (High) Allow restoring of 30% damaged data
         \n\nFor QR codes with a picture, High-level is used
     </string>
-
+    <string name="encryption">Encryption</string>
+    <string name="password">Password</string>
+    <string name="hidden">Hidden</string>
 
 </resources>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    style="@style/LayoutResultScan"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+
+        android:src="@drawable/wifi"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/gray_800" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ssidInput"
+        style="@style/TextInputLayout"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="15dp"
+
+        android:hint="@string/ssid"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/icon">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/TextInputEditText"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:imeOptions="actionDone"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/encryptionInput"
+        style="@style/TextInputLayout.Dropdown"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="15dp"
+
+        android:background="@color/gray_200"
+
+        android:hint="@string/encryption"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ssidInput">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            style="@style/AutoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordInput"
+        style="@style/TextInputLayout"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="15dp"
+
+        android:hint="@string/password"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/encryptionInput">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/TextInputEditText"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:imeOptions="actionDone"
+            android:inputType="textVisiblePassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/hiddenCheckBox"
+        style="@style/AutoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:text="@string/hidden"
+
+        app:layout_constraintTop_toBottomOf="@id/passwordInput"
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

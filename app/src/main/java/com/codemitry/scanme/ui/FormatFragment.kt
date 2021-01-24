@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
@@ -16,8 +17,10 @@ import com.codemitry.qr_code_generator_lib.qrcode.Formats
 import com.codemitry.qr_code_generator_lib.qrcode.encoding.FormattedData
 import com.codemitry.scanme.BarcodeDataAdapter
 import com.codemitry.scanme.R
+import com.codemitry.scanme.wifiEncryptions
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 
 
@@ -138,9 +141,9 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
         val layout = when (qrFormat) {
             Formats.TEXT -> R.layout.input_text
             Formats.URL -> R.layout.input_url
-            Formats.WIFI -> R.layout.input_text // TODO: Fix layout
+            Formats.WIFI -> R.layout.input_wifi
             Formats.EMAIL -> R.layout.input_email
-            Formats.SMS -> R.layout.input_text // TODO: Fix layout
+            Formats.SMS -> R.layout.input_sms
             Formats.CONTACT_INFO -> R.layout.input_text // TODO: Fix layout
             Formats.LOCATION -> R.layout.input_text // TODO: Fix layout
 
@@ -278,7 +281,28 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
 
                 })
             }
-            Formats.WIFI -> R.layout.input_text // TODO: Fix layout
+            Formats.WIFI -> {
+                // TODO: Fix troubles with list items backgrounds and selected edittext background
+                val autocompleteTextEncryption = dataCard.findViewById<TextInputLayout>(R.id.encryptionInput).editText as MaterialAutoCompleteTextView
+
+                ArrayAdapter(context
+                        ?: requireContext(), android.R.layout.simple_dropdown_item_1line, wifiEncryptions.values.toList()).also { adapter ->
+                    autocompleteTextEncryption.setAdapter(adapter)
+                }
+
+                dataCard.findViewById<TextInputLayout>(R.id.ssidInput).editText?.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(text: Editable?) {
+                        nextDataButton.isEnabled = text?.length ?: 0 > 0
+                    }
+
+                })
+            }
             Formats.EMAIL -> {
                 val addressEditText = dataCard.findViewById<TextInputLayout>(R.id.addressInput).editText
                 val messageEditText = dataCard.findViewById<TextInputLayout>(R.id.messageInput).editText
@@ -307,7 +331,20 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                     }
                 })
             }
-            Formats.SMS -> R.layout.input_text // TODO: Fix layout
+            Formats.SMS -> {
+                dataCard.findViewById<TextInputLayout>(R.id.messageInput).editText?.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(text: Editable?) {
+                        nextDataButton.isEnabled = text?.length ?: 0 > 0
+                    }
+
+                })
+            }
             Formats.CONTACT_INFO -> R.layout.input_text // TODO: Fix layout
             Formats.LOCATION -> R.layout.input_text // TODO: Fix layout
 
