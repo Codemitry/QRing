@@ -20,9 +20,9 @@ fun charCountIndicator(data: String, version: Int, encoding: DataConverter.Encod
     return charCountIndicator.toString()
 }
 
-enum class ByteFormats {
-    TEXT, URL, PHONE, SMS, EMAIL_ADDRESS, EMAIL, LOCATION, WIFI, VCARD
-}
+//enum class ByteFormats {
+//    TEXT, URL, PHONE, SMS, EMAIL_ADDRESS, EMAIL, LOCATION, WIFI, VCARD
+//}
 
 interface FormattedData {
     val formatted: String

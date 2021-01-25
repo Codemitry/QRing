@@ -57,4 +57,9 @@
     <string name="description">Описание</string>
     <string name="incorrect_latitude">Широта должна быть в пределах от -90 до 90</string>
     <string name="incorrect_longitude">Долгота должна быть в пределах от -180 до 180</string>
+
+    <!--    fragment_mask   -->
+    <string name="mask">Маска</string>
+    <string name="no_matter">Не имеет значения</string>
+    <string name="about_masks">"Mask is a "</string>
 </resources>

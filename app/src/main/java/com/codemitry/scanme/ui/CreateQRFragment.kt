@@ -30,6 +30,7 @@ class CreateQRFragment : Fragment() {
 
         showFormatFragment()
         showCorrectionFragment()
+        showMaskFragment()
     }
 
     private fun showFormatFragment() {
@@ -44,6 +45,12 @@ class CreateQRFragment : Fragment() {
                 ?.commit()
     }
 
+    private fun showMaskFragment() {
+        fragmentManager?.beginTransaction()
+                ?.add(container.id, MaskFragment(::onMaskChosen), MaskFragment::class.simpleName)
+                ?.commit()
+    }
+
 
     private fun onDataEntered(format: Formats, data: FormattedData) {
         this.qrFormat = format
@@ -54,6 +61,10 @@ class CreateQRFragment : Fragment() {
 
     private fun onCorrectionChosen(correction: ErrorCorrectionLevels) {
         this.qrErrorCorrectionLevel = correction
+    }
+
+    private fun onMaskChosen(mask: Int) {
+        this.qrMask = mask;
     }
 
 }

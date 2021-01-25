@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/maskLayout"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+
+    android:orientation="vertical"
+    tools:context=".ui.MaskFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:paddingVertical="15dp"
+
+            android:text="@string/mask"
+            android:textIsSelectable="false" />
+
+        <Button
+            android:id="@+id/helpMask"
+            style="@style/Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="10dp"
+            android:minHeight="15dp"
+            android:padding="0dp"
+
+            app:icon="@drawable/help" />
+    </LinearLayout>
+
+    <NumberPicker
+        android:id="@+id/maskPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"
+
+        android:layout_marginStart="5dp"
+        android:gravity="center"
+
+
+        android:orientation="horizontal">
+
+    </NumberPicker>
+
+    <CheckBox
+        android:id="@+id/no_matter_checkbox"
+        style="@style/Text.SubText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"
+
+        android:layout_marginTop="15dp"
+        android:text="@string/no_matter"
+        android:textIsSelectable="false" />
+</LinearLayout>
