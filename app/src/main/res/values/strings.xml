@@ -74,5 +74,6 @@
 
     <!--    TODO: Write masks description-->
     <string name="about_masks">"Mask is a "</string>
+    <string name="qr_created">Your QR-Code created successfully</string>
 
 </resources>

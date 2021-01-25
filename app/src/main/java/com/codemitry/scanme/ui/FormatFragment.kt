@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -24,19 +24,22 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 
 
-class FormatFragment(private val onFinish: (format: Formats, data: FormattedData) -> Unit) : Fragment() {
+class FormatFragment(private val onChangeValidityInput: (isInputValid: Boolean) -> Unit) : Fragment() {
 
     private lateinit var formatCard: CardView
     private lateinit var clearFormatButton: MaterialButton
 
     private lateinit var dataCard: CardView
 
-    // qr code fields
+    // qrcode code fields
     private var format: Formats? = null
     private var data: FormattedData? = null
 
-    private lateinit var nextDataButton: MaterialButton
-
+    private var isInputValid = false
+        set(value) {
+            onChangeValidityInput(value)
+            field = value
+        }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_format, container, false)
@@ -49,15 +52,14 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
         clearFormatButton = view.findViewById(R.id.formatButton)
         dataCard = view.findViewById(R.id.dataCard)
 
-        nextDataButton = view.findViewById(R.id.nextDataButton)
-
-        nextDataButton.setOnClickListener { onNextDataButtonClick() }
-
         // set click listeners to all buttons from format selector
         for (child in view.findViewById<FlexboxLayout>(R.id.flexFormat).children) {
             if (child is Button) {
                 child.setOnClickListener(::onFormatClick)
             }
+
+            // init state
+            onChangeValidityInput(false)
         }
 
 
@@ -72,6 +74,10 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
         } else if (format != null) {
             showFormatCard()
         }
+    }
+
+    fun getData(): FormattedData {
+        return BarcodeDataAdapter(dataCard, format ?: Formats.TEXT).formatted
     }
 
     private fun onFormatClick(v: View) {
@@ -93,7 +99,6 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
             clearFormatButton.text = getFormatName(format!!)
 
             showClearFormatButton()
-            hideNextDataButton()
         }
     }
 
@@ -211,43 +216,17 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                 .start()
     }
 
-
-    private fun showNextDataButton() {
-        nextDataButton.animate()
-                .alpha(0f)
-                .setDuration(0)
-                .start()
-        nextDataButton.visibility = View.VISIBLE
-
-        nextDataButton.animate()
-                .alpha(1f)
-                .setDuration(500)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .withEndAction { nextDataButton.setOnClickListener { onNextDataButtonClick() } }
-                .start()
-    }
-
-    private fun hideNextDataButton() {
-        nextDataButton.setOnClickListener { }
-        nextDataButton.animate()
-                .alpha(0f)
-                .setDuration(500)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .start()
-    }
-
-
     // when format already chosen and user clicks to clear format
     private fun onClearFormatButtonClick() {
         format = null
         data = null
 
+        isInputValid = false
+
         hideDataCard(::showFormatCard)
         hideFormatButton()
         clearFormatButton.setOnClickListener { }
 
-        nextDataButton.isEnabled = false
-        showNextDataButton()
     }
 
 
@@ -262,7 +241,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                     }
 
                     override fun afterTextChanged(text: Editable?) {
-                        nextDataButton.isEnabled = text?.length ?: 0 > 0
+                        isInputValid = text?.length ?: 0 > 0
                     }
 
                 })
@@ -276,7 +255,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                     }
 
                     override fun afterTextChanged(text: Editable?) {
-                        nextDataButton.isEnabled = text?.length ?: 0 > 0
+                        isInputValid = text?.length ?: 0 > 0
                     }
 
                 })
@@ -290,7 +269,9 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                     autocompleteTextEncryption.setAdapter(adapter)
                 }
 
-                dataCard.findViewById<TextInputLayout>(R.id.ssidInput).editText?.addTextChangedListener(object : TextWatcher {
+                val ssidEditText = dataCard.findViewById<TextInputLayout>(R.id.ssidInput).editText
+
+                ssidEditText?.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
@@ -298,10 +279,17 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                     }
 
                     override fun afterTextChanged(text: Editable?) {
-                        nextDataButton.isEnabled = text?.length ?: 0 > 0
+                        isInputValid = text?.length ?: 0 > 0 && autocompleteTextEncryption.text.isNotEmpty()
                     }
 
                 })
+
+                autocompleteTextEncryption.onItemClickListener = object : AdapterView.OnItemClickListener {
+                    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                        isInputValid = ssidEditText?.text?.length ?: 0 > 0
+                    }
+
+                }
             }
             Formats.EMAIL -> {
                 val addressEditText = dataCard.findViewById<TextInputLayout>(R.id.addressInput).editText
@@ -315,7 +303,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                     }
 
                     override fun afterTextChanged(text: Editable?) {
-                        nextDataButton.isEnabled = (text?.length ?: 0 > 0 && messageEditText?.text?.isNotEmpty() ?: false)
+                        isInputValid = (text?.length ?: 0 > 0 && messageEditText?.text?.isNotEmpty() ?: false)
                     }
                 })
 
@@ -327,7 +315,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                     }
 
                     override fun afterTextChanged(text: Editable?) {
-                        nextDataButton.isEnabled = (text?.length ?: 0 > 0 && addressEditText?.text?.isNotEmpty() ?: false)
+                        isInputValid = (text?.length ?: 0 > 0 && addressEditText?.text?.isNotEmpty() ?: false)
                     }
                 })
             }
@@ -340,7 +328,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                     }
 
                     override fun afterTextChanged(text: Editable?) {
-                        nextDataButton.isEnabled = text?.length ?: 0 > 0
+                        isInputValid = text?.length ?: 0 > 0
                     }
 
                 })
@@ -354,7 +342,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                     }
 
                     override fun afterTextChanged(text: Editable?) {
-                        nextDataButton.isEnabled = text?.length ?: 0 > 0
+                        isInputValid = text?.length ?: 0 > 0
                     }
 
                 })
@@ -377,7 +365,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                         else
                             null
 
-                        nextDataButton.isEnabled = (text?.length ?: 0 > 0 && longitudeEditText?.text?.isNotEmpty() ?: false && validFormat)
+                        isInputValid = (text?.length ?: 0 > 0 && longitudeEditText?.text?.isNotEmpty() ?: false && validFormat)
                     }
                 })
 
@@ -395,40 +383,13 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
                         else
                             null
 
-                        nextDataButton.isEnabled = (text?.length ?: 0 > 0 && latitudeEditText?.text?.isNotEmpty() ?: false && validFormat)
+                        isInputValid = (text?.length ?: 0 > 0 && latitudeEditText?.text?.isNotEmpty() ?: false && validFormat)
                     }
                 })
             }
 
-            else -> R.layout.input_text // TODO: Fix layout
-        }
-    }
-
-
-    private fun onNextDataButtonClick() {
-        if (format != null) {
-            data = BarcodeDataAdapter(dataCard, format!!).formatted
-
-            activity?.findViewById<LinearLayout>(R.id.formatLayout)?.animate()
-                    ?.setDuration(500)
-                    ?.setInterpolator(AccelerateDecelerateInterpolator())
-                    ?.alpha(0.5f)
-                    ?.translationXBy(-1000f)
-                    ?.withEndAction { formatCard.visibility = View.GONE; clearFormatButton.visibility = View.GONE }
-                    ?.start()
-
-            dataCard.animate()
-                    .setDuration(500)
-                    .setInterpolator(AccelerateDecelerateInterpolator())
-                    .alpha(0.5f)
-                    .translationXBy(-1000f)
-                    .withEndAction { dataCard.visibility = View.GONE; onFinish(format!!, data!!) }
-                    .start()
-
-        } else {
-            // Вообще эта ветка не должна никогда обрабатываться
-            hideDataCard(::showFormatCard)
-            hideFormatButton()
-        }
+            else -> {
+            }
+        } // TODO: Fix setting input
     }
 }

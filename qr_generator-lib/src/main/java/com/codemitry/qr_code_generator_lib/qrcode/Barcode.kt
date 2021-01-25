@@ -454,9 +454,21 @@ class Barcode(data: String, val correction: ErrorCorrectionLevels, var mask: Int
         }
     }
 
-    fun get(): Map<Pair<Int, Int>, ModuleState> = modulesState
+    fun getMap(): Map<Pair<Int, Int>, ModuleState> = modulesState
+
+    fun getArray(): Array<Array<ModuleState>> {
+        val field = Array(size) { Array<ModuleState>(size) { ModuleState.FALSE } }
+
+        for (module in modulesState) {
+            field[module.key.first][module.key.second] = module.value
+        }
+
+        return field
+    }
 
     init {
+
+        println("data: $data")
         val encoded = encode(data, correction)
 
         this.size = qrCodeSize(version)

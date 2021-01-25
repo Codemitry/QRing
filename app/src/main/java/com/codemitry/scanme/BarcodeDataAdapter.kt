@@ -1,8 +1,11 @@
 package com.codemitry.scanme
 
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.view.ViewGroup
 import android.widget.CheckBox
 import com.codemitry.qr_code_generator_lib.qrcode.Formats
+import com.codemitry.qr_code_generator_lib.qrcode.ModuleState
 import com.codemitry.qr_code_generator_lib.qrcode.encoding.*
 import com.google.android.material.textfield.TextInputLayout
 
@@ -108,6 +111,21 @@ class BarcodeDataAdapter(private val layout: ViewGroup, val format: Formats) {
                     layout.findViewById<TextInputLayout>(R.id.longitudeInput)?.editText?.setText(data.longitude)
                 }
             }
+        }
+
+
+        const val colorOne = Color.BLACK
+        const val colorZero = Color.WHITE
+
+        fun tableToBitmap(table: Array<Array<ModuleState>>): Bitmap {
+            val bitmap = Bitmap.createBitmap(table.size, table[0].size, Bitmap.Config.RGB_565)
+
+            for (x in table.indices) {
+                for (y in table[x].indices) {
+                    bitmap.setPixel(x, y, if (table[x][y] == ModuleState.TRUE) colorOne else colorZero)
+                }
+            }
+            return bitmap
         }
     }
 }
