@@ -145,7 +145,7 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
             Formats.EMAIL -> R.layout.input_email
             Formats.SMS -> R.layout.input_sms
             Formats.CONTACT_INFO -> R.layout.input_vcard
-            Formats.LOCATION -> R.layout.input_text // TODO: Fix layout
+            Formats.LOCATION -> R.layout.input_location
 
             else -> R.layout.input_text // TODO: Fix layout
         }
@@ -359,7 +359,46 @@ class FormatFragment(private val onFinish: (format: Formats, data: FormattedData
 
                 })
             }
-            Formats.LOCATION -> R.layout.input_text // TODO: Fix layout
+            Formats.LOCATION -> {
+                val latitudeEditText = dataCard.findViewById<TextInputLayout>(R.id.latitudeInput).editText
+                val longitudeEditText = dataCard.findViewById<TextInputLayout>(R.id.longitudeInput).editText
+
+                latitudeEditText?.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(text: Editable?) {
+                        val validFormat = (if (text?.isNotEmpty() == true) text.toString().toDouble() else 0.0) in -90.0..90.0
+                        latitudeEditText.error = if (!validFormat)
+                            getString(R.string.incorrect_latitude)
+                        else
+                            null
+
+                        nextDataButton.isEnabled = (text?.length ?: 0 > 0 && longitudeEditText?.text?.isNotEmpty() ?: false && validFormat)
+                    }
+                })
+
+                longitudeEditText?.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(text: Editable?) {
+                        val validFormat = (if (text?.isNotEmpty() == true) text.toString().toDouble() else 0.0) in -180.0..180.0
+                        longitudeEditText.error = if (!validFormat)
+                            getString(R.string.incorrect_longitude)
+                        else
+                            null
+
+                        nextDataButton.isEnabled = (text?.length ?: 0 > 0 && latitudeEditText?.text?.isNotEmpty() ?: false && validFormat)
+                    }
+                })
+            }
 
             else -> R.layout.input_text // TODO: Fix layout
         }

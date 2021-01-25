@@ -57,6 +57,11 @@ data class Email(val address: String, val topic: String, val message: String) : 
 
 data class Location(val latitude: String, val longitude: String) : FormattedData {
     override val formatted = "geo:$latitude,$longitude"
+
+    init {
+        if (latitude.toDouble() !in -90.0..90.0 || longitude.toDouble() !in -180.0..180.0)
+            throw IllegalArgumentException("Incorrect data! Latitude has to be in -90.0..90.0, longitude has to be in -180.0..180.0")
+    }
 }
 
 data class WiFi(val encryption: Encryption, val ssid: String, val password: String, val hidden: Boolean) : FormattedData {

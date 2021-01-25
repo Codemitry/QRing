@@ -58,6 +58,13 @@ class BarcodeDataAdapter(private val layout: ViewGroup, val format: Formats) {
 
                     )
                 }
+
+                Formats.LOCATION -> {
+                    formatted = Location(
+                            layout.findViewById<TextInputLayout>(R.id.latitudeInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.longitudeInput).editText?.text.toString(),
+                    )
+                }
                 else -> formatted = Text("")
             }
             return formatted
@@ -95,6 +102,10 @@ class BarcodeDataAdapter(private val layout: ViewGroup, val format: Formats) {
                     layout.findViewById<TextInputLayout>(R.id.addressInput)?.editText?.setText(data.address)
                     layout.findViewById<TextInputLayout>(R.id.webSiteInput)?.editText?.setText(data.website)
                     layout.findViewById<TextInputLayout>(R.id.nickNameInput)?.editText?.setText(data.nickname)
+                }
+                is Location -> {
+                    layout.findViewById<TextInputLayout>(R.id.latitudeInput)?.editText?.setText(data.latitude)
+                    layout.findViewById<TextInputLayout>(R.id.longitudeInput)?.editText?.setText(data.longitude)
                 }
             }
         }

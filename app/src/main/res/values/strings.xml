@@ -65,5 +65,7 @@
     <string name="nickName">Nickname</string>
     <string name="birthday">Birthdaay</string>
     <string name="description">Description</string>
+    <string name="incorrect_latitude">Latitude must be greater than or equal to -90 and less than or equal to 90</string>
+    <string name="incorrect_longitude">Latitude must be greater than or equal to -180 and less than or equal to 180</string>
 
 </resources>

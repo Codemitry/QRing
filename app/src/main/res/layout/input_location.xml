@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/LayoutResultScan"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+
+        android:src="@drawable/sms"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/gray_800" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/latitudeInput"
+        style="@style/TextInputLayout"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="15dp"
+
+        android:hint="@string/latitude"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/icon">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/TextInputEditText"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:imeOptions="actionNext"
+            android:inputType="numberDecimal|numberSigned" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/longitudeInput"
+        style="@style/TextInputLayout"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="15dp"
+
+        android:hint="@string/longitude"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/latitudeInput">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/TextInputEditText"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:imeOptions="actionNext"
+            android:inputType="numberDecimal|numberSigned" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
