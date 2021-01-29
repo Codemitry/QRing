@@ -63,4 +63,6 @@
     <string name="no_matter">Не имеет значения</string>
     <string name="about_masks">"Mask is a "</string>
     <string name="qr_created">Ваш QR-Код успешно создан</string>
+    <string name="share_qr">Поделиться QR-кодом</string>
+    <string name="qr_code_saved_successfully">QR-код сохранен успешно!</string>
 </resources>
