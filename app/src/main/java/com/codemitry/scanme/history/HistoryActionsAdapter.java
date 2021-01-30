@@ -35,7 +35,7 @@ public class HistoryActionsAdapter extends RecyclerView.Adapter<HistoryActionsAd
         HistoryAction action = actions.get(holder.getAdapterPosition());
 
         // Получение текста  и его установка для соответствующего action из HistoryAction
-        holder.setAction(holder.action.getContext().getResources().getString(HistoryAction.Actions.getString(action.getAction())));
+        holder.setAction(holder.action.getContext().getResources().getString(HistoryAction.Actions.Companion.getString(action.getAction())));
 
         switch (action.getBarcode().valueFormat) {
             case Barcode.WIFI:
