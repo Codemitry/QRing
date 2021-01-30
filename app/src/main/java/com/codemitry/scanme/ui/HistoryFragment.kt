@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,15 +28,15 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        historyActionsManager = ViewModelProvider(requireActivity()).get(HistoryActionsManager::class.java)
+
         recycler = view.findViewById(R.id.historyList)
 
         initRecycler()
 
-        view.findViewById<Button>(R.id.back).setOnClickListener() {
+        view.findViewById<ImageButton>(R.id.back).setOnClickListener {
             activity?.onBackPressed()
         }
-
-        historyActionsManager = ViewModelProvider(requireActivity()).get(HistoryActionsManager::class.java)
     }
 
     private fun initRecycler() {
@@ -50,11 +50,12 @@ class HistoryFragment : Fragment() {
                 HistoryAction.Actions.CREATE -> TODO()
             }
         }
+        recycler?.adapter = adapter
     }
 
     private fun startBarcodeResultFragment(barcode: com.codemitry.scanme.barcode.Barcode) {
-        val barcodeResultFragment = BarcodeResultFragment(barcode);
+        val barcodeResultFragment = BarcodeResultFragment(barcode)
 
-        barcodeResultFragment.show(requireFragmentManager(), BarcodeResultFragment::class.simpleName);
+        barcodeResultFragment.show(parentFragmentManager, BarcodeResultFragment::class.simpleName)
     }
 }

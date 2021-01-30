@@ -3,9 +3,9 @@ package com.codemitry.scanme.ui
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
-import androidx.lifecycle.ViewModelProvider
 import com.codemitry.scanme.OnHistoryClickListener
 import com.codemitry.scanme.R
 import com.codemitry.scanme.history.HistoryActionsManager
@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity(), OnHistoryClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        println("here")
 
         bottomNavigationView = findViewById(R.id.bottomNavigation)
 
@@ -49,7 +47,7 @@ class MainActivity : AppCompatActivity(), OnHistoryClickListener {
             if (savedInstanceState == null)
                 showDefaultFragment()
 
-            val historyActionsManager = ViewModelProvider(this).get(HistoryActionsManager::class.java)
+            val historyActionsManager: HistoryActionsManager by viewModels()
             historyActionsManager.setPath(filesDir)
         }
     }

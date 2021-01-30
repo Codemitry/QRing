@@ -45,6 +45,12 @@ class FormatFragment(private val onChangeValidityInput: (isInputValid: Boolean) 
         return inflater.inflate(R.layout.fragment_format, container, false)
     }
 
+    override fun onPause() {
+        super.onPause()
+
+        data = getData()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -72,7 +78,8 @@ class FormatFragment(private val onChangeValidityInput: (isInputValid: Boolean) 
             showDataCard(format!!); BarcodeDataAdapter.fillLayout(data!!, dataCard)
             showClearFormatButton()
         } else if (format != null) {
-            showFormatCard()
+            hideFormatCard { showDataCard(format!!) }
+            showClearFormatButton()
         }
     }
 
