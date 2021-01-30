@@ -17,13 +17,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.codemitry.scanme.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-private const val REQUEST_STORAGE_PERMISSION_SHARE = 1145
+
 private const val REQUEST_STORAGE_PERMISSION_SAVE = 1245
 
 class GeneratedQRCodeFragment(val qrCode: Bitmap) : BottomSheetDialogFragment() {
@@ -44,7 +46,7 @@ class GeneratedQRCodeFragment(val qrCode: Bitmap) : BottomSheetDialogFragment() 
         view.findViewById<ImageView>(R.id.qrcode).setImageBitmap(qrCode)
 
         view.findViewById<Button>(R.id.share).setOnClickListener {
-//            shareImage(qrCode)
+            shareImage(qrCode)
         }
 
         view.findViewById<Button>(R.id.download).setOnClickListener {
@@ -52,33 +54,25 @@ class GeneratedQRCodeFragment(val qrCode: Bitmap) : BottomSheetDialogFragment() 
         }
     }
 
-    private fun requestStoragePermission(code: Int) {
+    private fun requestStoragePermission() {
         val requiredPermissions =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_MEDIA_LOCATION)
                 else
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-        requestPermissions(requiredPermissions, code)
+        requestPermissions(requiredPermissions, REQUEST_STORAGE_PERMISSION_SAVE)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == REQUEST_STORAGE_PERMISSION_SHARE) {
+        if (requestCode == REQUEST_STORAGE_PERMISSION_SAVE) {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                shareImage(qrCode)
+                saveQrCode(qrCode)
             } else {
                 Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
             }
-        } else
-            if (requestCode == REQUEST_STORAGE_PERMISSION_SAVE) {
-                if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                    saveQrCode(qrCode)
-                } else {
-                    Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
-                }
-            }
+        }
     }
 
     private fun allStoragePermissionsGranted(): Boolean =
@@ -91,38 +85,41 @@ class GeneratedQRCodeFragment(val qrCode: Bitmap) : BottomSheetDialogFragment() 
                     else true
 
 
+    // method: https://stackoverflow.com/questions/9049143/android-share-intent-for-a-bitmap-is-it-possible-not-to-save-it-prior-sharing
     private fun shareImage(img: Bitmap) {
+        saveImageToCache(img)
+        val imagePath = File(requireContext().cacheDir, "images")
+        val newFile = File(imagePath, "image.jpg")
+        val contentUri = FileProvider.getUriForFile(requireContext(), "com.codemitry.scanme.fileprovider", newFile)
 
-        if (!allStoragePermissionsGranted()) {
-
-            requestStoragePermission(REQUEST_STORAGE_PERMISSION_SHARE)
-            return
+        if (contentUri != null) {
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // temp permission for receiving app to read this file
+            shareIntent.setDataAndType(contentUri, requireContext().contentResolver.getType(contentUri))
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_qr)))
         }
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "image/*"
-
-        val uri = saveMediaToStorage(img)
-
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
-        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_qr)))
-
     }
 
     private fun saveQrCode(qrCode: Bitmap) {
         if (!allStoragePermissionsGranted()) {
-            requestStoragePermission(REQUEST_STORAGE_PERMISSION_SAVE)
+            requestStoragePermission()
             return
         }
 
-        saveMediaToStorage(qrCode)
+        saveBitmapToStorage(qrCode)
     }
 
-    private fun saveMediaToStorage(bitmap: Bitmap): Uri {
+    private var cacheFileName: String? = null
+
+    private fun saveBitmapToStorage(bitmap: Bitmap): Uri {
 
         val date: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
                 .format(System.currentTimeMillis())
 
         val filename = "QR_Code_$date"
+        cacheFileName = filename
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             context?.contentResolver?.also { resolver ->
@@ -164,6 +161,17 @@ class GeneratedQRCodeFragment(val qrCode: Bitmap) : BottomSheetDialogFragment() 
             Toast.makeText(context, getString(R.string.qr_code_saved_successfully), Toast.LENGTH_SHORT).show()
             return uri
         }
+
+    }
+
+    private fun saveImageToCache(img: Bitmap) {
+        val cachePath = File(requireContext().cacheDir, "images")
+        cachePath.mkdirs() // don't forget to make the directory
+
+        FileOutputStream("$cachePath/image.jpg").use { fos ->
+            img.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+
+        } // overwrites this image every time
 
     }
 
