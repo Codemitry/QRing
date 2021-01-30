@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
 
     android:paddingBottom="20dp"
-    tools:context=".ui.HelpCorrectionFragment">
+    tools:context=".ui.create.HelpCorrectionFragment">
 
     <androidx.cardview.widget.CardView
         style="@style/Card"

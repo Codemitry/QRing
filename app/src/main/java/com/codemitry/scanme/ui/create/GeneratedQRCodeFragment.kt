@@ -1,4 +1,4 @@
-package com.codemitry.scanme.ui
+package com.codemitry.scanme.ui.create
 
 import android.Manifest
 import android.content.ContentValues

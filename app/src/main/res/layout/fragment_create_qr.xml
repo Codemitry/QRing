@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".ui.CreateQRFragment">
+        tools:context=".ui.create.CreateQRFragment">
 
 
         <TextView

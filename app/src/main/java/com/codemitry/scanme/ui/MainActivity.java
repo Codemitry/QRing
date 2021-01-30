@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.codemitry.scanme.OnHistoryClickListener;
 import com.codemitry.scanme.R;
 import com.codemitry.scanme.history.HistoryActionsManager;
+import com.codemitry.scanme.ui.create.CreateQRFragment;
+import com.codemitry.scanme.ui.scan.ScanQRFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 

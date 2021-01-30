@@ -1,6 +1,8 @@
-package com.codemitry.scanme.ui;
+package com.codemitry.scanme.ui.scan;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
 
     private static final String[] REQUIRED_PERMISSIONS = {Manifest.permission.CAMERA};
     private static final int REQUEST_CODE_PERMISSIONS = 9182;
+    private static final int REQUEST_PICK_IMAGE = 9192;
 
     private static final String FLASH_KEY = "Flash";
     private ImageButton flashButton;
@@ -124,6 +127,29 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+            }
+        }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        view.findViewById(R.id.attach).setOnClickListener((v) -> {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_PICK_IMAGE);
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_PICK_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+
             }
         }
     }

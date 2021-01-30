@@ -17,6 +17,7 @@ import com.codemitry.scanme.barcode.Barcode;
 import com.codemitry.scanme.history.HistoryAction;
 import com.codemitry.scanme.history.HistoryActionsAdapter;
 import com.codemitry.scanme.history.HistoryActionsManager;
+import com.codemitry.scanme.ui.scan.BarcodeResultFragment;
 
 import java.util.List;
 

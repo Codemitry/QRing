@@ -7,7 +7,7 @@
     android:paddingBottom="20dp"
 
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.BarcodeResultFragment">
+    tools:context=".ui.scan.BarcodeResultFragment">
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

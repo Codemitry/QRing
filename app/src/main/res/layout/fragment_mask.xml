@@ -9,7 +9,7 @@
     android:layout_marginTop="20dp"
 
     android:orientation="vertical"
-    tools:context=".ui.MaskFragment">
+    tools:context=".ui.create.MaskFragment">
 
     <LinearLayout
         android:layout_width="wrap_content"

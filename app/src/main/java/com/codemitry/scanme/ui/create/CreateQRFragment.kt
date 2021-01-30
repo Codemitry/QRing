@@ -1,4 +1,4 @@
-package com.codemitry.scanme.ui
+package com.codemitry.scanme.ui.create
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.codemitry.qr_code_generator_lib.qrcode.Barcode
 import com.codemitry.qr_code_generator_lib.qrcode.Formats
 import com.codemitry.qr_code_generator_lib.qrcode.correction.ErrorCorrectionLevels
 import com.codemitry.qr_code_generator_lib.qrcode.encoding.FormattedData
 import com.codemitry.scanme.BarcodeDataAdapter.Companion.tableToBitmap
 import com.codemitry.scanme.R
+import com.codemitry.scanme.history.HistoryActionsManager
 
 class CreateQRFragment : Fragment() {
 
@@ -29,6 +31,8 @@ class CreateQRFragment : Fragment() {
 
     private var formatInputValid = false
 
+    private var historyActionsManager: HistoryActionsManager? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_qr, container, false)
     }
@@ -42,8 +46,12 @@ class CreateQRFragment : Fragment() {
         showCorrectionFragment()
         showMaskFragment()
 
+        historyActionsManager = ViewModelProvider(requireActivity()).get(HistoryActionsManager::class.java)
+
+
         createQRCodeButton = view.findViewById(R.id.create_button)
         createQRCodeButton?.setOnClickListener {
+
             showQRCode(Bitmap.createScaledBitmap(createQRCode(), 512, 512, false))
         }
     }
@@ -101,6 +109,12 @@ class CreateQRFragment : Fragment() {
         formatInputValid = isValid
 
         createQRCodeButton?.isEnabled = isValid
+    }
+
+    private fun addActionToHistory() {
+        // determite 1 barcode class
+//        historyActionsManager.addHistoryAction(HistoryAction(HistoryAction.Actions.SCAN, barcode))
+//        historyActionsManager.saveHistoryActions()
     }
 
 }
