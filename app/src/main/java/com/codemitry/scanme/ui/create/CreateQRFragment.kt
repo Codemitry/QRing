@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.codemitry.qr_code_generator_lib.qrcode.Barcode
@@ -34,6 +35,8 @@ class CreateQRFragment : Fragment() {
 
     private var historyActionsManager: HistoryActionsManager? = null
 
+    private var onHistoryClickListener: OnHistoryClickListener? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_qr, container, false)
     }
@@ -43,12 +46,19 @@ class CreateQRFragment : Fragment() {
 
         container = view.findViewById(R.id.createCodeContainer)
 
-        showFormatFragment()
-        showCorrectionFragment()
-        showMaskFragment()
+
+        if (childFragmentManager.findFragmentByTag(FormatFragment::class.simpleName) == null)
+            showFormatFragment()
+        if (childFragmentManager.findFragmentByTag(ErrorCorrectionFragment::class.simpleName) == null)
+            showCorrectionFragment()
+        if (childFragmentManager.findFragmentByTag(MaskFragment::class.simpleName) == null)
+            showMaskFragment()
+
+        view.findViewById<ImageButton>(R.id.history).setOnClickListener {
+            onHistoryClickListener?.onHistoryClick()
+        }
 
         historyActionsManager = ViewModelProvider(requireActivity()).get(HistoryActionsManager::class.java)
-
 
         createQRCodeButton = view.findViewById(R.id.create_button)
         createQRCodeButton?.setOnClickListener {
@@ -61,21 +71,21 @@ class CreateQRFragment : Fragment() {
         if (formatFragment == null)
             formatFragment = FormatFragment(::onChangeFormatInputValidity)
 
-        fragmentManager?.beginTransaction()
-                ?.add(container.id, formatFragment!!, FormatFragment::class.simpleName)
-                ?.commit()
+        childFragmentManager.beginTransaction()
+                .add(container.id, formatFragment!!, FormatFragment::class.simpleName)
+                .commit()
     }
 
     private fun showCorrectionFragment() {
-        fragmentManager?.beginTransaction()
-                ?.add(container.id, ErrorCorrectionFragment(::onCorrectionChosen), ErrorCorrectionFragment::class.simpleName)
-                ?.commit()
+        childFragmentManager.beginTransaction()
+                .add(container.id, ErrorCorrectionFragment(::onCorrectionChosen), ErrorCorrectionFragment::class.simpleName)
+                .commit()
     }
 
     private fun showMaskFragment() {
-        fragmentManager?.beginTransaction()
-                ?.add(container.id, MaskFragment(::onMaskChosen), MaskFragment::class.simpleName)
-                ?.commit()
+        childFragmentManager.beginTransaction()
+                .add(container.id, MaskFragment(::onMaskChosen), MaskFragment::class.simpleName)
+                .commit()
     }
 
     private fun createQRCode(): Bitmap {
@@ -87,7 +97,7 @@ class CreateQRFragment : Fragment() {
     }
 
     private fun showQRCode(qr: Bitmap) {
-        GeneratedQRCodeFragment(qr).show(requireFragmentManager(), GeneratedQRCodeFragment::class.simpleName)
+        GeneratedQRCodeFragment(qr).show(parentFragmentManager, GeneratedQRCodeFragment::class.simpleName)
     }
 
 
@@ -113,7 +123,7 @@ class CreateQRFragment : Fragment() {
     }
 
     fun setOnHistoryClickListener(listener: OnHistoryClickListener) {
-//        this.onHistoryClickListener = listener
+        this.onHistoryClickListener = listener
     }
 
     private fun addActionToHistory() {
