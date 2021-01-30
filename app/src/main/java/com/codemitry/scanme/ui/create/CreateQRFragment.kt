@@ -13,6 +13,7 @@ import com.codemitry.qr_code_generator_lib.qrcode.Formats
 import com.codemitry.qr_code_generator_lib.qrcode.correction.ErrorCorrectionLevels
 import com.codemitry.qr_code_generator_lib.qrcode.encoding.FormattedData
 import com.codemitry.scanme.BarcodeDataAdapter.Companion.tableToBitmap
+import com.codemitry.scanme.OnHistoryClickListener
 import com.codemitry.scanme.R
 import com.codemitry.scanme.history.HistoryActionsManager
 
@@ -109,6 +110,10 @@ class CreateQRFragment : Fragment() {
         formatInputValid = isValid
 
         createQRCodeButton?.isEnabled = isValid
+    }
+
+    fun setOnHistoryClickListener(listener: OnHistoryClickListener) {
+//        this.onHistoryClickListener = listener
     }
 
     private fun addActionToHistory() {
