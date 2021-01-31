@@ -2,6 +2,7 @@ package com.codemitry.qr_code_generator_lib.qrcode.encoding
 
 import com.codemitry.qr_code_generator_lib.qrcode.addToHead
 import com.codemitry.qr_code_generator_lib.qrcode.correction.charCountIndicatorLength
+import java.io.Serializable
 
 @ExperimentalUnsignedTypes
 fun charCountIndicator(data: String, version: Int, encoding: DataConverter.EncodingMode): String {
@@ -20,11 +21,7 @@ fun charCountIndicator(data: String, version: Int, encoding: DataConverter.Encod
     return charCountIndicator.toString()
 }
 
-//enum class ByteFormats {
-//    TEXT, URL, PHONE, SMS, EMAIL_ADDRESS, EMAIL, LOCATION, WIFI, VCARD
-//}
-
-interface FormattedData {
+interface FormattedData : Serializable {
     val formatted: String
 }
 

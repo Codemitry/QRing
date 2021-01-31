@@ -128,4 +128,8 @@ class MainActivity : AppCompatActivity(), OnHistoryClickListener {
             it.animate().translationYBy(-500F).setInterpolator(AccelerateDecelerateInterpolator()).start()
         }
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 }

@@ -8,8 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codemitry.qr_code_generator_lib.qrcode.Barcode;
+import com.codemitry.qr_code_generator_lib.qrcode.encoding.WiFi;
 import com.codemitry.scanme.R;
-import com.codemitry.scanme.barcode.Barcode;
 
 import java.util.List;
 
@@ -37,13 +38,13 @@ public class HistoryActionsAdapter extends RecyclerView.Adapter<HistoryActionsAd
         // Получение текста  и его установка для соответствующего action из HistoryAction
         holder.setAction(holder.action.getContext().getResources().getString(HistoryAction.Actions.Companion.getString(action.getAction())));
 
-        switch (action.getBarcode().valueFormat) {
-            case Barcode.WIFI:
-                holder.setBarcodeData(action.getBarcode().wifi.ssid);
+        switch (action.getBarcode().getFormat()) {
+            case WIFI:
+                holder.setBarcodeData(((WiFi) (action.getBarcode().getData())).getSsid());
                 break;
 
             default:
-                holder.setBarcodeData(action.getBarcode().displayValue);
+                holder.setBarcodeData(action.getBarcode().getData().getFormatted());
         }
 
         holder.itemView.setOnClickListener((View view) -> {

@@ -3,7 +3,7 @@ package com.codemitry.scanme.barcode;
 import java.io.Serializable;
 import java.util.List;
 
-public class Barcode implements Serializable {
+public class Barcodes implements Serializable {
     public static final int ALL_FORMATS = 0;
     public static final int CODE_128 = 1;
     public static final int CODE_39 = 2;
@@ -242,95 +242,95 @@ public class Barcode implements Serializable {
 
     }
 
-
-    public static Barcode getBarcode(com.google.mlkit.vision.barcode.Barcode from) {
-        Barcode newBarcode = new Barcode();
-
-        switch (from.getValueType()) {
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_CONTACT_INFO:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.CONTACT_INFO;
-
-                newBarcode.contactInfo = getContactInfo(from.getContactInfo());
-                break;
-
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_EMAIL:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.EMAIL;
-
-                newBarcode.email = getEmail(from.getEmail());
-                break;
-
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_ISBN:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.ISBN;
-
-                // ?????????????
-
-                break;
-
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_PHONE:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.PHONE;
-
-                newBarcode.phone = getPhone(from.getPhone());
-
-                break;
-
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_PRODUCT:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.PRODUCT;
-
-                // ????????????
-
-                break;
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_SMS:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.SMS;
-
-                newBarcode.sms = getSms(from.getSms());
-
-                break;
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_TEXT:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.TEXT;
-
-                // ????????????
-
-                break;
-
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_URL:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.URL;
-
-                newBarcode.url = getUrl(from.getUrl());
-                break;
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_WIFI:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.WIFI;
-
-                newBarcode.wifi = getWiFi(from.getWifi());
-                break;
-
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_GEO:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.GEO;
-
-                newBarcode.geoPoint = getGeo(from.getGeoPoint());
-
-                break;
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_CALENDAR_EVENT:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.CALENDAR_EVENT;
-
-                newBarcode.calendarEvent = getCalendarEvent(from.getCalendarEvent());
-                break;
-
-            case com.google.mlkit.vision.barcode.Barcode.TYPE_DRIVER_LICENSE:
-                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.DRIVER_LICENSE;
-
-                newBarcode.driverLicense = getDriverLicence(from.getDriverLicense());
-                break;
-        }
-
-        newBarcode.rawValue = from.getRawValue();
-        newBarcode.rawBytes = from.getRawBytes();
-        newBarcode.displayValue = from.getDisplayValue();
-//        newBarcode.cornerPoints = from.getCornerPoints();
-        // Опасное преобразование форматов. Не факт, что в дальнейшем значения форматов совпадут
-        newBarcode.format = from.getFormat();
-
-        return newBarcode;
-    }
+//
+//    public static Barcode getBarcode(com.google.mlkit.vision.barcode.Barcode from) {
+//        Barcode newBarcode = new Barcode();
+//
+//        switch (from.getValueType()) {
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_CONTACT_INFO:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.CONTACT_INFO;
+//
+//                newBarcode.contactInfo = getContactInfo(from.getContactInfo());
+//                break;
+//
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_EMAIL:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.EMAIL;
+//
+//                newBarcode.email = getEmail(from.getEmail());
+//                break;
+//
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_ISBN:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.ISBN;
+//
+//                // ?????????????
+//
+//                break;
+//
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_PHONE:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.PHONE;
+//
+//                newBarcode.phone = getPhone(from.getPhone());
+//
+//                break;
+//
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_PRODUCT:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.PRODUCT;
+//
+//                // ????????????
+//
+//                break;
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_SMS:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.SMS;
+//
+//                newBarcode.sms = getSms(from.getSms());
+//
+//                break;
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_TEXT:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.TEXT;
+//
+//                // ????????????
+//
+//                break;
+//
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_URL:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.URL;
+//
+//                newBarcode.url = getUrl(from.getUrl());
+//                break;
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_WIFI:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.WIFI;
+//
+//                newBarcode.wifi = getWiFi(from.getWifi());
+//                break;
+//
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_GEO:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.GEO;
+//
+//                newBarcode.geoPoint = getGeo(from.getGeoPoint());
+//
+//                break;
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_CALENDAR_EVENT:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.CALENDAR_EVENT;
+//
+//                newBarcode.calendarEvent = getCalendarEvent(from.getCalendarEvent());
+//                break;
+//
+//            case com.google.mlkit.vision.barcode.Barcode.TYPE_DRIVER_LICENSE:
+//                newBarcode.valueFormat = com.google.android.gms.vision.barcode.Barcode.DRIVER_LICENSE;
+//
+//                newBarcode.driverLicense = getDriverLicence(from.getDriverLicense());
+//                break;
+//        }
+//
+//        newBarcode.rawValue = from.getRawValue();
+//        newBarcode.rawBytes = from.getRawBytes();
+//        newBarcode.displayValue = from.getDisplayValue();
+////        newBarcode.cornerPoints = from.getCornerPoints();
+//        // Опасное преобразование форматов. Не факт, что в дальнейшем значения форматов совпадут
+//        newBarcode.format = from.getFormat();
+//
+//        return newBarcode;
+//    }
 
     private static WiFi getWiFi(com.google.mlkit.vision.barcode.Barcode.WiFi from) {
         return new WiFi(from.getSsid(), from.getPassword(), from.getEncryptionType());

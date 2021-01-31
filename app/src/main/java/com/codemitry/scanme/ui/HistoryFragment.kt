@@ -1,5 +1,6 @@
 package com.codemitry.scanme.ui
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.codemitry.qr_code_generator_lib.qrcode.Barcode
+import com.codemitry.scanme.BarcodeDataAdapter.Companion.tableToBitmap
 import com.codemitry.scanme.R
 import com.codemitry.scanme.history.HistoryAction
 import com.codemitry.scanme.history.HistoryActionsAdapter
 import com.codemitry.scanme.history.HistoryActionsManager
+import com.codemitry.scanme.ui.create.GeneratedQRCodeFragment
 import com.codemitry.scanme.ui.scan.BarcodeResultFragment
 
 class HistoryFragment : Fragment() {
@@ -46,16 +50,22 @@ class HistoryFragment : Fragment() {
         adapter = HistoryActionsAdapter(historyActionsManager?.historyActions as MutableList<HistoryAction>?)
         adapter?.setOnHistoryActionClickListener { action, barcode ->
             when (action) {
-                HistoryAction.Actions.SCAN -> startBarcodeResultFragment(barcode)
-                HistoryAction.Actions.CREATE -> TODO()
+                HistoryAction.Actions.SCAN -> showBarcodeScannedFragment(barcode)
+                HistoryAction.Actions.CREATE -> showBarcodeCreatedFragment(barcode)
             }
         }
         recycler?.adapter = adapter
     }
 
-    private fun startBarcodeResultFragment(barcode: com.codemitry.scanme.barcode.Barcode) {
-        val barcodeResultFragment = BarcodeResultFragment(barcode)
+    private fun showBarcodeScannedFragment(qrCode: Barcode) {
+        val barcodeResultFragment = BarcodeResultFragment(qrCode)
 
         barcodeResultFragment.show(parentFragmentManager, BarcodeResultFragment::class.simpleName)
+    }
+
+    private fun showBarcodeCreatedFragment(qrCode: Barcode) {
+        val qrCodeBitmap = Bitmap.createScaledBitmap(tableToBitmap(qrCode.getCode()), 512, 512, false)
+
+        GeneratedQRCodeFragment(qrCodeBitmap).show(parentFragmentManager, GeneratedQRCodeFragment::class.simpleName)
     }
 }

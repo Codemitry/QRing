@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.codemitry.scanme.OnHistoryClickListener;
 import com.codemitry.scanme.R;
+import com.codemitry.scanme.barcode.BarcodeAdapter;
 import com.codemitry.scanme.barcode.BarcodeAnalyzer;
 import com.codemitry.scanme.barcode.GraphicOverlay;
 import com.codemitry.scanme.history.HistoryAction;
@@ -54,6 +55,7 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
 
     private HistoryActionsManager historyActionsManager;
 
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -69,15 +71,6 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
         // enable the flash if it's true
         if (camera != null)
             camera.getCameraControl().enableTorch(isFlashEnabled);
-
-        com.codemitry.scanme.barcode.Barcode barcode = new com.codemitry.scanme.barcode.Barcode();
-        barcode.rawValue = "https://vk.com";
-        barcode.displayValue = barcode.rawValue;
-        barcode.url = new com.codemitry.scanme.barcode.Barcode.Url("Hello", barcode.rawValue);
-        barcode.format = 8;
-        barcode.valueFormat = 8;
-        historyActionsManager.addHistoryAction(new HistoryAction(HistoryAction.Actions.SCAN, barcode));
-        historyActionsManager.saveHistoryActions();
 
     }
 
@@ -268,19 +261,17 @@ public class ScanQRFragment extends Fragment implements BarcodeAnalyzer.OnChange
     @Override
     public void onBarcodeSearched(Barcode barcode) {
         requireActivity().runOnUiThread(() -> {
-            startBarcodeResultFragment(barcode);
+            startBarcodeResultFragment(BarcodeAdapter.Companion.barcode(barcode));
             historyActionsManager.addHistoryAction(new HistoryAction(HistoryAction.Actions.SCAN, barcode));
             historyActionsManager.saveHistoryActions();
         });
 
     }
 
-    private void startBarcodeResultFragment(Barcode barcode) {
-        BarcodeResultFragment barcodeResultFragment = new BarcodeResultFragment(com.codemitry.scanme.barcode.Barcode.getBarcode(barcode));
-        barcodeResultFragment.setOnCancelListener(() -> {
-            startCamera();
-        });
+    private void startBarcodeResultFragment(com.codemitry.qr_code_generator_lib.qrcode.Barcode barcode) {
+        BarcodeResultFragment barcodeResultFragment = new BarcodeResultFragment(barcode);
+        barcodeResultFragment.setOnCancelListener(this::startCamera);
 
-        barcodeResultFragment.show(requireFragmentManager(), barcodeResultFragment.getClass().getSimpleName());
+        barcodeResultFragment.show(getChildFragmentManager(), barcodeResultFragment.getClass().getSimpleName());
     }
 }

@@ -6,6 +6,7 @@ import com.codemitry.qr_code_generator_lib.qrcode.encoding.*
 import com.codemitry.qr_code_generator_lib.qrcode.encoding.DataConverter.EncodingMode
 import com.codemitry.qr_code_generator_lib.qrcode.encoding.DataConverter.getEncodingMode
 import com.codemitry.qr_code_generator_lib.qrcode.encoding.DataConverter.getModeIndicator
+import java.io.Serializable
 import java.util.*
 
 enum class Formats {
@@ -24,18 +25,31 @@ const val MIN_VERSION = 1
 const val MAX_VERSION = 40
 
 @ExperimentalUnsignedTypes
-class Barcode(data: String, val correction: ErrorCorrectionLevels, var mask: Int) {
-    constructor(data: String, correction: ErrorCorrectionLevels) : this(data, correction, 0)
-    constructor(data: FormattedData, correction: ErrorCorrectionLevels, mask: Int) : this(data.formatted, correction, mask)
-    constructor(data: FormattedData, correction: ErrorCorrectionLevels) : this(data.formatted, correction, 0)
+class Barcode(val data: FormattedData, val correction: ErrorCorrectionLevels, var mask: Int) : Serializable {
+    constructor(data: FormattedData, correction: ErrorCorrectionLevels) : this(data, correction, 0)
 
     var version = 0
         private set
 
+    val displayValue = data.formatted
+
+    val format: Formats = when (data) {
+        is Text -> Formats.TEXT
+        is Url -> Formats.URL
+        is Phone -> Formats.PHONE
+        is Email -> Formats.EMAIL
+        is Sms -> Formats.SMS
+        is VCard -> Formats.CONTACT_INFO
+        is WiFi -> Formats.WIFI
+        is Location -> Formats.LOCATION
+
+        else -> Formats.TEXT
+    }
+
     private val modulesType = mutableMapOf<Pair<Int, Int>, ModuleTypes>()
     private val modulesState = mutableMapOf<Pair<Int, Int>, ModuleState>()
 
-    private val size: Int
+    private var size: Int = 0
 
     private fun free(x: Int, y: Int): Boolean = !modulesType.containsKey(x to y)
 
@@ -456,21 +470,19 @@ class Barcode(data: String, val correction: ErrorCorrectionLevels, var mask: Int
 
     fun getMap(): Map<Pair<Int, Int>, ModuleState> = modulesState
 
-    fun getArray(): Array<Array<ModuleState>> {
-        val field = Array(size) { Array<ModuleState>(size) { ModuleState.FALSE } }
+    fun getCode(): Array<Array<ModuleState>> {
+        // 4 modules for each side for padding
+        val field = Array(size + 8) { Array<ModuleState>(size + 8) { ModuleState.FALSE } }
 
         for (module in modulesState) {
-            field[module.key.first][module.key.second] = module.value
+            field[module.key.first + 4][module.key.second + 4] = module.value
         }
 
         return field
     }
 
-    init {
-
-        println("data: $data")
-        val encoded = encode(data, correction)
-
+    fun create() {
+        val encoded = encode(data.formatted, correction)
         this.size = qrCodeSize(version)
 
         drawFinderPattern(3, 3)
@@ -490,9 +502,9 @@ class Barcode(data: String, val correction: ErrorCorrectionLevels, var mask: Int
         applyMask(masks[mask]!!)
 
         drawFormatAndVersionInformation()
+    }
 
-//        for (entry in modulesState) {
-//            image.setPixel(entry.key.first, entry.key.second, entry.value)
-//        }
+    init {
+        //        println("data: $data")
     }
 }
