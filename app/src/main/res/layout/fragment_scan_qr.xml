@@ -21,8 +21,8 @@
 
     <ImageButton
         android:id="@+id/attach"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
 
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
@@ -38,8 +38,8 @@
 
     <ImageButton
         android:id="@+id/flash"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
 
         android:scaleType="fitXY"
 
@@ -55,8 +55,8 @@
 
     <ImageButton
         android:id="@+id/history"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
 
         android:scaleType="fitXY"
 
