@@ -1,10 +1,7 @@
 package com.codemitry.scanme.ui.scan
 
 import android.Manifest
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.net.wifi.WifiConfiguration
@@ -24,7 +21,6 @@ import com.codemitry.qr_code_generator_lib.qrcode.Barcode
 import com.codemitry.qr_code_generator_lib.qrcode.Formats
 import com.codemitry.qr_code_generator_lib.qrcode.encoding.*
 import com.codemitry.scanme.R
-//import com.codemitry.scanme.ui.create.OnCancelListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*
 
@@ -38,6 +34,11 @@ interface OnCancelListener {
 class BarcodeResultFragment(private val qrCode: Barcode) : BottomSheetDialogFragment() {
 
     var onCancelListener: OnCancelListener? = null
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        onCancelListener?.onCancel()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,8 +117,6 @@ class BarcodeResultFragment(private val qrCode: Barcode) : BottomSheetDialogFrag
                 }
 
                 view.findViewById<View>(R.id.sendSms).setOnClickListener {
-//                    dismiss();
-//                    onCancel(requireDialog());
                     sendSms(sms)
                 }
             }
@@ -137,14 +136,14 @@ class BarcodeResultFragment(private val qrCode: Barcode) : BottomSheetDialogFrag
 
                 // TODO: Think
 //                if (barcode.contactInfo.organization == null || barcode.contactInfo.organization.equals("")) {
-                view.findViewById<View>(R.id.companyLayout).setVisibility(View.GONE);
+                view.findViewById<View>(R.id.companyLayout).visibility = View.GONE;
 //                } else {
 //                    (view.findViewById<TextView>(R.id.company)).setText((barcode.contactInfo.organization));
 //                }
 
                 // TODO: Think
 //                if (barcode.contactInfo.title == null || barcode.contactInfo.title.equals("")) {
-                view.findViewById<View>(R.id.jobLayout).setVisibility(View.GONE);
+                view.findViewById<View>(R.id.jobLayout).visibility = View.GONE;
 //                } else {
 //                    (view.findViewById<TextView>(R.id.job)).setText((barcode.contactInfo.title));
 //                }
@@ -287,7 +286,6 @@ class BarcodeResultFragment(private val qrCode: Barcode) : BottomSheetDialogFrag
             wifiManager.disconnect()
             wifiManager.enableNetwork(netID, true)
             wifiManager.reconnect()
-
         }
     }
 

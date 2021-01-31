@@ -1,5 +1,6 @@
 package com.codemitry.scanme.ui
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -10,7 +11,8 @@ import com.codemitry.scanme.OnHistoryClickListener
 import com.codemitry.scanme.R
 import com.codemitry.scanme.history.HistoryActionsManager
 import com.codemitry.scanme.ui.create.CreateQRFragment
-import com.codemitry.scanme.ui.scan.ScanQRFragment
+import com.codemitry.scanme.ui.scan.REQUEST_CODE_CAMERA
+import com.codemitry.scanme.ui.scan.ScanFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), OnHistoryClickListener {
@@ -19,7 +21,7 @@ class MainActivity : AppCompatActivity(), OnHistoryClickListener {
 
     // fragments
     private var createQRFragment: CreateQRFragment? = null
-    private var scanQRFragment: ScanQRFragment? = null
+    private var scanQRFragment: ScanFragment? = null
     private var historyFragment: HistoryFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,8 +55,8 @@ class MainActivity : AppCompatActivity(), OnHistoryClickListener {
     }
 
     private fun startScanQRFragment() {
-        scanQRFragment = ScanQRFragment().apply {
-            setOnHistoryClickListener(this@MainActivity)
+        scanQRFragment = ScanFragment().apply {
+            onHistoryClickListener = this@MainActivity
         }.also { scanQRFragment ->
             supportFragmentManager.beginTransaction()
                     .replace(R.id.container, scanQRFragment)
@@ -77,8 +79,8 @@ class MainActivity : AppCompatActivity(), OnHistoryClickListener {
 
 
     private fun showDefaultFragment() {
-        scanQRFragment = ScanQRFragment().apply {
-            setOnHistoryClickListener(this@MainActivity)
+        scanQRFragment = ScanFragment().apply {
+            onHistoryClickListener = this@MainActivity
         }.also { scanQRFragment ->
             supportFragmentManager.beginTransaction()
                     .add(R.id.container, scanQRFragment)
@@ -131,5 +133,12 @@ class MainActivity : AppCompatActivity(), OnHistoryClickListener {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_CODE_CAMERA) {
+            for (permission in grantResults)
+                if (permission != PackageManager.PERMISSION_GRANTED)
+                    return
+            startScanQRFragment()
+        }
     }
 }

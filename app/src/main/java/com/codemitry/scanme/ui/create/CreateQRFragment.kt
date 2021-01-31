@@ -162,15 +162,6 @@ class CreateQRFragment : Fragment() {
         }
     }
 
-
-    // what the fun?
-    private fun onDataEntered(format: Formats, data: FormattedData) {
-        this.qrFormat = format
-        this.qrData = data
-
-        showCorrectionFragment()
-    }
-
     private fun onCorrectionChosen(correction: ErrorCorrectionLevels) {
         this.qrErrorCorrectionLevel = correction
     }
