@@ -1,8 +1,10 @@
 package com.codemitry.scanme.ui.scan
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.DisplayMetrics
@@ -11,11 +13,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.codemitry.scanme.OnHistoryClickListener
@@ -29,10 +35,12 @@ import com.codemitry.scanme.history.HistoryAction
 import com.codemitry.scanme.history.HistoryActionsManager
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.common.InputImage
 import java.util.concurrent.Executors
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+
 
 private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
 const val REQUEST_CODE_CAMERA = 9182
@@ -57,8 +65,12 @@ class ScanFragment : Fragment(), OnChangeStatesListener {
     private var cameraSelector: CameraSelector? = null
     private var cameraProvider: ProcessCameraProvider? = null
 
+    private var analyzer: BarcodeAnalyzer? = null
+
     private var previewUseCase: Preview? = null
     private var analysisUseCase: ImageAnalysis? = null
+
+    private var imageView: ImageView? = null
 
     private val screenAspectRatio: Int
         get() {
@@ -67,10 +79,12 @@ class ScanFragment : Fragment(), OnChangeStatesListener {
             return aspectRatio(metrics.widthPixels, metrics.heightPixels)
         }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onPause() {
+        isFlashEnabled = false
+        onFlashChanged(false)
 
-        onFlashChanged(isFlashEnabled)
+        super.onPause()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,14 +94,33 @@ class ScanFragment : Fragment(), OnChangeStatesListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        imageView = view.findViewById(R.id.galleryImage)
+
+        val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                imageView?.visibility = View.VISIBLE
+                imageView?.setImageURI(result.data?.data ?: Uri.EMPTY)
+
+                imageView?.let { imageView ->
+                    analyzer?.process(InputImage.fromBitmap(imageView.drawable.toBitmap(imageView.width, imageView.height, null), 0), null)
+                }
+
+            } else {
+                bindCameraUseCases()
+            }
+        }
+
         view.findViewById<View>(R.id.attach).setOnClickListener {
+            stopCamera()
+
             val getIntent = Intent(Intent.ACTION_GET_CONTENT)
             getIntent.type = "image/*"
             val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             pickIntent.type = "image/*"
             val chooserIntent = Intent.createChooser(getIntent, getString(R.string.select_image_with_qr_code))
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
-            ActivityCompat.startActivityForResult(requireActivity(), chooserIntent, REQUEST_PICK_IMAGE, null)
+            resultLauncher.launch(chooserIntent)
+//            ActivityCompat.startActivityForResult(requireActivity(), chooserIntent, REQUEST_PICK_IMAGE, null)
         }
 
         historyActionsManager = ViewModelProvider(requireActivity()).get(HistoryActionsManager::class.java)
@@ -138,6 +171,7 @@ class ScanFragment : Fragment(), OnChangeStatesListener {
         graphicOverlay?.setPreviewSize(480, 640)
 
         previewUseCase = Preview.Builder()
+                // called crashes on Samsung Galaxy A7
 //                .setTargetAspectRatio(screenAspectRatio)
 //                .setTargetRotation(previewView!!.display.rotation)
                 .build()
@@ -166,8 +200,6 @@ class ScanFragment : Fragment(), OnChangeStatesListener {
                 .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
                 .build()
 
-//        val barcodeScanner: BarcodeScanner = BarcodeScanning.getClient()
-
         if (cameraProvider == null) {
             return
         }
@@ -176,6 +208,7 @@ class ScanFragment : Fragment(), OnChangeStatesListener {
         }
 
         analysisUseCase = ImageAnalysis.Builder()
+                //  called crashes on Samsung Galaxy A7
 //                .setTargetAspectRatio(screenAspectRatio)
 //                .setTargetRotation(previewView!!.display.rotation)
                 .build()
@@ -184,8 +217,8 @@ class ScanFragment : Fragment(), OnChangeStatesListener {
         // Initialize our background executor
         val cameraExecutor = Executors.newSingleThreadExecutor()
 
-        analysisUseCase?.setAnalyzer(cameraExecutor, BarcodeAnalyzer(graphicOverlay!!, this))
-
+        analyzer = BarcodeAnalyzer(graphicOverlay!!, this)
+        analysisUseCase?.setAnalyzer(cameraExecutor, analyzer!!)
 
         try {
             bindAnalyse()
@@ -251,16 +284,29 @@ class ScanFragment : Fragment(), OnChangeStatesListener {
     override fun onChangeState(newState: States?) {
         when (newState) {
             States.NOT_STARTED, States.DETECTED -> if (isCameraStarted) stopCamera()
-            States.DETECTING -> if (!isCameraStarted) setupCamera()
+            States.DETECTING -> if (!isCameraStarted) {
+                setupCamera()
+            }
         }
+    }
 
+    override fun onBarcodeNotFound() {
+        Toast.makeText(requireContext(), getString(R.string.qr_code_not_found), Toast.LENGTH_SHORT).show()
+        imageView?.setImageURI(Uri.EMPTY)
+        imageView?.visibility = View.INVISIBLE
+
+        bindCameraUseCases()
     }
 
     override fun onBarcodeSearched(barcode: Barcode?) {
         requireActivity().runOnUiThread {
-            startBarcodeResultFragment(barcode(barcode!!))
-            historyActionsManager?.addHistoryAction(HistoryAction(HistoryAction.Actions.SCAN, barcode))
-            historyActionsManager?.saveHistoryActions()
+            barcode?.let { barcode ->
+                startBarcodeResultFragment(barcode(barcode))
+                historyActionsManager?.addHistoryAction(HistoryAction(HistoryAction.Actions.SCAN, barcode))
+                historyActionsManager?.saveHistoryActions()
+                return@runOnUiThread
+            }
+
         }
     }
 
@@ -269,9 +315,13 @@ class ScanFragment : Fragment(), OnChangeStatesListener {
         barcodeResultFragment.onCancelListener = object : OnCancelListener {
             override fun onCancel() {
 
+                imageView?.visibility = View.INVISIBLE
+                imageView?.setImageURI(Uri.EMPTY)
+
                 bindPreview()
                 bindAnalyse()
                 isCameraStarted = true
+
             }
         }
         barcodeResultFragment.show(childFragmentManager, barcodeResultFragment.javaClass.simpleName)

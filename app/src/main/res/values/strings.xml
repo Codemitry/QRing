@@ -78,5 +78,6 @@
     <string name="share_qr">Share QR Code</string>
     <string name="qr_code_saved_successfully">QR code saved successfully!</string>
     <string name="select_image_with_qr_code">Select an image with QR code</string>
+    <string name="qr_code_not_found">QR code not found!</string>
 
 </resources>

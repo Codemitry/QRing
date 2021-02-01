@@ -8,8 +8,6 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import com.google.mlkit.vision.barcode.Barcode;
-
 class BarcodeSearchingGraphic extends BarcodeGraphicBase {
 
     private PointF[] boxClickwiseCoordinates;
@@ -27,28 +25,26 @@ class BarcodeSearchingGraphic extends BarcodeGraphicBase {
 
     private RectF barcodeRect;
 
-    public BarcodeSearchingGraphic(GraphicOverlay overlay, ValueAnimator searchingAnimation, Barcode barcode) {
+    public BarcodeSearchingGraphic(GraphicOverlay overlay, ValueAnimator searchingAnimation, Rect box, boolean scaled) {
         super(overlay);
 
         this.searchingAnimation = searchingAnimation;
-//        this.barcodeRect = new RectF(barcode.getBoundingBox());
 
-        Rect notScaledRect = barcode.getBoundingBox();
+        if (!scaled) {
+            box.left *= overlay.mWidthScaleFactor;
+            box.top *= overlay.mHeightScaleFactor;
+            box.right *= overlay.mWidthScaleFactor;
+            box.bottom *= overlay.mHeightScaleFactor;
+        }
 
-        RectF scaledRect = new RectF(
-                notScaledRect.left * overlay.mWidthScaleFactor,
-                notScaledRect.top * overlay.mHeightScaleFactor,
-                notScaledRect.right * overlay.mWidthScaleFactor,
-                notScaledRect.bottom * overlay.mHeightScaleFactor);
-
-        int paddingWidth = (int) scaledRect.width() / 4;
-        int paddingHeight = (int) scaledRect.height() / 4;
+        int paddingWidth = (int) box.width() / 4;
+        int paddingHeight = (int) box.height() / 4;
 
         this.barcodeRect = new RectF(
-                scaledRect.left - paddingWidth,
-                scaledRect.top - paddingHeight,
-                scaledRect.right + paddingWidth,
-                scaledRect.bottom + paddingHeight
+                box.left - paddingWidth,
+                box.top - paddingHeight,
+                box.right + paddingWidth,
+                box.bottom + paddingHeight
         );
 
         boxRect.left = barcodeRect.left;

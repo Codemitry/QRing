@@ -27,10 +27,48 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
         SEARCHED
     }
 
-    public interface OnChangeStatesListener {
-        void onChangeState(States newState);
+    public void process(InputImage image, ImageProxy imageProxy) {
+        scanner.process(image)
+                .addOnSuccessListener(barcodes -> {
+                    graphicOverlay.clear();
 
-        void onBarcodeSearched(Barcode barcode);
+                    if (barcodes.size() <= 0) {
+                        graphicOverlay.add(new BarcodeReticleGraphic(graphicOverlay, cameraReticleAnimator));
+                        cameraReticleAnimator.start();
+
+                        // scanning image from gallery
+                        if (imageProxy == null) {
+                            onChangeStatesListener.onBarcodeNotFound();
+                        }
+
+
+                        if (state != States.DETECTING)
+                            changeState(States.DETECTING);
+
+                    } else {
+                        cameraReticleAnimator.cancel();
+
+                        changeState(States.DETECTED);
+
+                        Barcode barcode = barcodes.get(0);
+
+                        ValueAnimator searchingAnimator = createSearchingAnimator(graphicOverlay, barcode);
+                        searchingAnimator.start();
+
+                        graphicOverlay.add(new BarcodeSearchingGraphic(graphicOverlay, searchingAnimator, barcode.getBoundingBox(), imageProxy == null));
+                        changeState(States.SEARCHING);
+                        searchBarcode(barcode);
+
+                    }
+                    if (imageProxy != null)
+                        imageProxy.close();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(graphicOverlay.getContext(), "Unable to detect the barcode!", Toast.LENGTH_SHORT).show();
+                    onChangeStatesListener.onBarcodeSearched(null);
+                    if (imageProxy != null)
+                        imageProxy.close();
+                });
     }
 
     private States state;
@@ -87,39 +125,16 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
     public void analyze(@NonNull ImageProxy image) {
         @SuppressLint("UnsafeExperimentalUsageError") Image mediaImage = image.getImage();
 
-
         assert mediaImage != null;
-        scanner.process(InputImage.fromMediaImage(mediaImage, image.getImageInfo().getRotationDegrees()))
-                .addOnSuccessListener(barcodes -> {
-                    graphicOverlay.clear();
+        process(InputImage.fromMediaImage(mediaImage, image.getImageInfo().getRotationDegrees()), image);
+    }
 
-                    if (barcodes.size() <= 0) {
-                        graphicOverlay.add(new BarcodeReticleGraphic(graphicOverlay, cameraReticleAnimator));
-                        cameraReticleAnimator.start();
+    public interface OnChangeStatesListener {
+        void onChangeState(States newState);
 
-                        changeState(States.DETECTING);
-                    } else {
-                        cameraReticleAnimator.cancel();
+        void onBarcodeSearched(Barcode barcode);
 
-                        changeState(States.DETECTED);
-
-                        Barcode barcode = barcodes.get(0);
-
-                        ValueAnimator searchingAnimator = createSearchingAnimator(graphicOverlay, barcode);
-                        searchingAnimator.start();
-
-                        graphicOverlay.add(new BarcodeSearchingGraphic(graphicOverlay, searchingAnimator, barcode));
-                        changeState(States.SEARCHING);
-                        searchBarcode(barcode);
-
-                    }
-                    image.close();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(graphicOverlay.getContext(), "Unable to detect the barcode!", Toast.LENGTH_SHORT).show();
-
-                    image.close();
-                });
+        void onBarcodeNotFound();
     }
 
     private void searchBarcode(Barcode barcode) {

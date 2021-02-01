@@ -66,4 +66,5 @@
     <string name="share_qr">Поделиться QR-кодом</string>
     <string name="qr_code_saved_successfully">QR-код сохранен успешно!</string>
     <string name="select_image_with_qr_code">Выберите изображение с QR-кодом</string>
+    <string name="qr_code_not_found">QR-код не найден!</string>
 </resources>
