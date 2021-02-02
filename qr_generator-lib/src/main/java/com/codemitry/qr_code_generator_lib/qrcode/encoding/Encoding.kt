@@ -79,7 +79,8 @@ data class WiFi(val encryption: Encryption, val ssid: String, val password: Stri
 }
 
 data class VCard(val name: String, val surname: String, val phone: String, val email: String,
-                 val description: String, val birthday: String, val address: String,
-                 val website: String, val nickname: String) : FormattedData {
-    override val formatted = "MECARD:N:$name,$surname;TEL:$phone;EMAIL:$email;NOTE:$description;BDAY:$birthday;ADR:$address;URL:$website;NICKNAME:$nickname;;"
+                 val company: String, val jobTitle: String, val street: String, val city: String, val country: String,
+                 val website: String) : FormattedData {
+    override val formatted = "BEGIN:VCARD\nVERSION:3.0\nN:$surname;$name\nTEL;TYPE=work,voice:$phone\nEMAIL:$email\nORG:$company\nTITLE:$jobTitle\nADR;TYPE=WORK,PREF:;;$street;$city;;;$country\nURL:$website\nEND:VCARD"
+//    override val formatted = "MECARD:N:$name,$surname;TEL:$phone;EMAIL:$email;NOTE:$description;BDAY:$birthday;ADR:$address;URL:$website;NICKNAME:$nickname;;"
 }

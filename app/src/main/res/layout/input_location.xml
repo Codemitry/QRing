@@ -13,7 +13,7 @@
         android:scaleX="0.75"
         android:scaleY="0.75"
 
-        android:src="@drawable/sms"
+        android:src="@drawable/location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

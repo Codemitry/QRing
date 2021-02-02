@@ -360,21 +360,11 @@ class Barcode(val data: FormattedData, val correction: ErrorCorrectionLevels, va
                 encodedString = AlphaNumeric.alphaNumericEncoding(string)
                 modeIndicator = getModeIndicator(DataConverter.ModeIndicator.ALPHANUMERIC)
             }
-//            EncodingMode.BYTE -> {
-//                encodedString = Byte.byteEncoding(string)
-//                modeIndicator = DataConverter.getModeIndicator(DataConverter.ModeIndicator.BYTE)
-//            }
             else -> {
                 encodedString = com.codemitry.qr_code_generator_lib.qrcode.encoding.Byte.byteEncoding(string)
 
                 // ECI often unsupported by QR scanners
                 val mode = getModeIndicator(DataConverter.ModeIndicator.BYTE)
-//                for (c in string) {
-//                    if (c !in 'a'..'z' && c !in 'A'..'Z') {
-//                        mode = DataConverter.getModeIndicator(DataConverter.ModeIndicator.ECI)
-//                        break
-//                    }
-//                }
 
                 modeIndicator = mode
             }
@@ -402,7 +392,6 @@ class Barcode(val data: FormattedData, val correction: ErrorCorrectionLevels, va
 
         addToTail(resultString, "0", resultString.length + needZeros)
 
-        println("mode: $modeIndicator, charcount: $charCountIndicator")
         // Чередующиеся цепочки байт для заполнения данными до границы вместимости по версии
         val alternation = arrayOf("11101100", "00010001")
         val necessaryBytes = (maxBits(version, correctionLevel) - resultString.length) / 8
@@ -502,9 +491,5 @@ class Barcode(val data: FormattedData, val correction: ErrorCorrectionLevels, va
         applyMask(masks[mask]!!)
 
         drawFormatAndVersionInformation()
-    }
-
-    init {
-        //        println("data: $data")
     }
 }

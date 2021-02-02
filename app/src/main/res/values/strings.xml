@@ -62,9 +62,6 @@
     <string name="phone">Phone</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
-    <string name="nickName">Nickname</string>
-    <string name="birthday">Birthday</string>
-    <string name="description">Description</string>
     <string name="incorrect_latitude">Latitude must be greater than or equal to -90 and less than or equal to 90</string>
     <string name="incorrect_longitude">Latitude must be greater than or equal to -180 and less than or equal to 180</string>
 
@@ -72,12 +69,19 @@
     <string name="mask">Mask</string>
     <string name="no_matter">It doesn\'t matter</string>
 
-    <!--    TODO: Write masks description-->
-    <string name="about_masks">"Mask is a "</string>
+    <string name="about_masks">A mask pattern changes which modules are dark and which are light according to a particular rule (formula).
+
+        \n\nThe selected mask does not affect the validity of the code.  It\'s used just for easily code detection by the scanners.
+        \nThere are 7 patterns of the mask.
+
+        \n\nIf you\'re not a specialist, choose the «no matter» option</string>
     <string name="qr_created">Your QR Code created successfully</string>
     <string name="share_qr">Share QR Code</string>
     <string name="qr_code_saved_successfully">QR code saved successfully!</string>
     <string name="select_image_with_qr_code">Select an image with QR code</string>
     <string name="qr_code_not_found">QR code not found!</string>
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="street">Street</string>
 
 </resources>

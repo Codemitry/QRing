@@ -75,7 +75,7 @@ class BarcodeResultFragment(private val qrCode: Barcode) : BottomSheetDialogFrag
                 view.findViewById<TextView>(R.id.ssid).text = (qrCode.data as WiFi).ssid
 
                 view.findViewById<View>(R.id.connectWifi).setOnClickListener {
-                    connectToWifi(qrCode.data as WiFi);
+                    connectToWifi(qrCode.data as WiFi)
                 }
             }
 
@@ -91,7 +91,7 @@ class BarcodeResultFragment(private val qrCode: Barcode) : BottomSheetDialogFrag
                 }
 
                 if (email.topic.isEmpty()) {
-                    view.findViewById<View>(R.id.subjectLayout).visibility = View.GONE;
+                    view.findViewById<View>(R.id.subjectLayout).visibility = View.GONE
                 } else {
                     view.findViewById<TextView>(R.id.subject).text = email.topic
                 }
@@ -105,13 +105,13 @@ class BarcodeResultFragment(private val qrCode: Barcode) : BottomSheetDialogFrag
             Formats.SMS -> {
                 val sms = qrCode.data as Sms
                 if (sms.phone.isEmpty()) {
-                    view.findViewById<View>(R.id.numberLayout).visibility = View.GONE;
+                    view.findViewById<View>(R.id.numberLayout).visibility = View.GONE
                 } else {
                     view.findViewById<TextView>(R.id.number).text = sms.phone
                 }
 
                 if (sms.message.isEmpty()) {
-                    view.findViewById<View>(R.id.messageLayout).visibility = View.GONE;
+                    view.findViewById<View>(R.id.messageLayout).visibility = View.GONE
                 } else {
                     view.findViewById<TextView>(R.id.message).text = sms.message
                 }
@@ -123,35 +123,38 @@ class BarcodeResultFragment(private val qrCode: Barcode) : BottomSheetDialogFrag
 
             Formats.CONTACT_INFO -> {
                 val vcard = qrCode.data as VCard
+
+                println("contact:")
+                println("$vcard")
                 view.findViewById<TextView>(R.id.name).text = ("${vcard.name} ${vcard.surname}")
 
-                view.findViewById<TextView>(R.id.number).text = vcard.phone
+                if (vcard.phone.isEmpty())
+                    view.findViewById<View>(R.id.number).visibility = View.GONE
+                else
+                    view.findViewById<TextView>(R.id.number).text = vcard.phone
 
                 if (vcard.email.isEmpty()) {
-                    view.findViewById<View>(R.id.emailLayout).visibility = View.GONE;
+                    view.findViewById<View>(R.id.emailLayout).visibility = View.GONE
                 } else {
                     view.findViewById<TextView>(R.id.email).text = vcard.email
                 }
 
+                if (vcard.company.isEmpty()) {
+                    view.findViewById<View>(R.id.companyLayout).visibility = View.GONE
+                } else {
+                    view.findViewById<TextView>(R.id.company).text = vcard.company
+                }
 
-                // TODO: Think
-//                if (barcode.contactInfo.organization == null || barcode.contactInfo.organization.equals("")) {
-                view.findViewById<View>(R.id.companyLayout).visibility = View.GONE;
-//                } else {
-//                    (view.findViewById<TextView>(R.id.company)).setText((barcode.contactInfo.organization));
-//                }
+                if (vcard.jobTitle.isEmpty()) {
+                    view.findViewById<View>(R.id.jobLayout).visibility = View.GONE
+                } else {
+                    view.findViewById<TextView>(R.id.job).text = vcard.jobTitle
+                }
 
-                // TODO: Think
-//                if (barcode.contactInfo.title == null || barcode.contactInfo.title.equals("")) {
-                view.findViewById<View>(R.id.jobLayout).visibility = View.GONE;
-//                } else {
-//                    (view.findViewById<TextView>(R.id.job)).setText((barcode.contactInfo.title));
-//                }
-
-                if (vcard.address.isEmpty()) {
+                if (vcard.street.isEmpty() && vcard.city.isEmpty() && vcard.country.isEmpty()) {
                     view.findViewById<View>(R.id.addressLayout).visibility = View.GONE
                 } else {
-                    view.findViewById<TextView>(R.id.address).text = vcard.address
+                    view.findViewById<TextView>(R.id.address).text = ("${vcard.country} ${vcard.city} ${vcard.street}")
                 }
 
                 if (vcard.website.isEmpty()) {

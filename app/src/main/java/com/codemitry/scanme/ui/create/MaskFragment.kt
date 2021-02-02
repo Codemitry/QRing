@@ -20,8 +20,7 @@ class MaskFragment(private val onMaskChosen: (mask: Int) -> Unit) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<MaterialButton>(R.id.helpMask).setOnClickListener {
-            // TODO: Show normal help
-            HelpCorrectionFragment().show(requireFragmentManager(), HelpCorrectionFragment::class.simpleName)
+            HelpMaskFragment().show(parentFragmentManager, HelpMaskFragment::class.simpleName)
         }
 
         val picker = view.findViewById<NumberPicker>(R.id.maskPicker)

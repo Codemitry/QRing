@@ -14,19 +14,23 @@ class BarcodeAdapter {
                     when (from.valueType) {
                         com.google.mlkit.vision.barcode.Barcode.TYPE_CONTACT_INFO -> {
                             format = Formats.CONTACT_INFO
-
                             VCard(
                                     from.contactInfo?.name?.first ?: "",
                                     from.contactInfo?.name?.last ?: "",
-                                    from.contactInfo?.phones?.get(0)?.number ?: "",
-                                    from.contactInfo?.emails?.get(0)?.address ?: "",
+                                    if (from.contactInfo?.phones?.size ?: 0 > 0) (from.contactInfo?.phones?.get(0)?.number
+                                            ?: "") else "",
+                                    if (from.contactInfo?.emails?.size ?: 0 > 0) (from.contactInfo?.emails?.get(0)?.address
+                                            ?: "") else "",
+                                    from.contactInfo?.organization ?: "",
                                     from.contactInfo?.title ?: "",
-                                    "", // don't know
-                                    from.contactInfo?.addresses?.get(0)?.addressLines?.get(0)
-                                            ?: "", // fix!
-                                    from.contactInfo?.urls?.get(0) ?: "",
-                                    from.contactInfo?.name?.formattedName ?: ""
-                            )
+                                    if (from.contactInfo?.addresses?.size ?: 0 > 0 && from.contactInfo?.addresses?.get(0)?.addressLines?.size ?: 0 > 0) (from.contactInfo?.addresses?.get(0)?.addressLines?.get(0)
+                                            ?: "") else "",
+                                    if (from.contactInfo?.addresses?.size ?: 0 > 0 && from.contactInfo?.addresses?.get(0)?.addressLines?.size ?: 0 > 1) (from.contactInfo?.addresses?.get(0)?.addressLines?.get(1)
+                                            ?: "") else "",
+                                    if (from.contactInfo?.addresses?.size ?: 0 > 0 && from.contactInfo?.addresses?.get(0)?.addressLines?.size ?: 0 > 2) (from.contactInfo?.addresses?.get(0)?.addressLines?.get(2)
+                                            ?: "") else "",
+                                    if (from.contactInfo?.urls?.size ?: 0 > 0) (from.contactInfo?.urls?.get(0)
+                                            ?: "") else "")
                         }
                         com.google.mlkit.vision.barcode.Barcode.TYPE_EMAIL -> {
                             format = Formats.EMAIL

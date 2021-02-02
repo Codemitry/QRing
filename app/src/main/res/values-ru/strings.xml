@@ -52,19 +52,25 @@
     <string name="phone">Телефон</string>
     <string name="name">Имя</string>
     <string name="surname">Фамилия</string>
-    <string name="nickName">Nickname</string>
-    <string name="birthday">День рождения</string>
-    <string name="description">Описание</string>
     <string name="incorrect_latitude">Широта должна быть в пределах от -90 до 90</string>
     <string name="incorrect_longitude">Долгота должна быть в пределах от -180 до 180</string>
 
     <!--    fragment_mask   -->
     <string name="mask">Маска</string>
     <string name="no_matter">Не имеет значения</string>
-    <string name="about_masks">"Mask is a "</string>
+    <string name="about_masks">Маска определяет, какие модули светлые, а какие темные согласно определенному правилу (формуле).
+
+        \n\nВыбранная маска не влияет на корректность QR-кода. Правильно подобранная маска лишь может упростить процесс сканирования и обнаружения кода для сканеров.
+        \nВсего существует 7 различных формул, определяющих маску.
+        \nВ иделае к коду должна применяться маска, с которой QR-код будет содержать как можно меньше подряд идущих модулей одного цвета.
+
+        \n\nЕсли вы не специалист, выберите вариант «Не важно»</string>
     <string name="qr_created">Ваш QR-код успешно создан</string>
     <string name="share_qr">Поделиться QR-кодом</string>
     <string name="qr_code_saved_successfully">QR-код сохранен успешно!</string>
     <string name="select_image_with_qr_code">Выберите изображение с QR-кодом</string>
     <string name="qr_code_not_found">QR-код не найден!</string>
+    <string name="country">Страна</string>
+    <string name="city">Город / населенный пункт</string>
+    <string name="street">Улица</string>
 </resources>

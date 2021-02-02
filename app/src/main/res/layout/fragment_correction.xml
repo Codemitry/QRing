@@ -55,7 +55,7 @@
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/correctionButtonGroup"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
 
             app:checkedButton="@id/correctionM"
 
@@ -66,8 +66,9 @@
                 android:id="@+id/correctionL"
                 style="@style/Button.Outlined"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:minWidth="10dp"
+
 
                 android:tag="L"
                 android:text="@string/correction_L" />
@@ -76,8 +77,9 @@
                 android:id="@+id/correctionM"
                 style="@style/Button.Outlined"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:minWidth="10dp"
+
                 android:tag="M"
                 android:text="@string/correction_M" />
 
@@ -85,7 +87,7 @@
                 android:id="@+id/correctionQ"
                 style="@style/Button.Outlined"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:minWidth="10dp"
                 android:tag="Q"
@@ -95,7 +97,7 @@
                 android:id="@+id/correctionH"
                 style="@style/Button.Outlined"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:minWidth="10dp"
                 android:tag="H"

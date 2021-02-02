@@ -9,8 +9,8 @@ import com.codemitry.qr_code_generator_lib.qrcode.ModuleState
 import com.codemitry.qr_code_generator_lib.qrcode.encoding.*
 import com.google.android.material.textfield.TextInputLayout
 
-public val wifiEncryptions = mapOf(WiFi.Encryption.OPEN to "Open", WiFi.Encryption.WEP to "WEP", WiFi.Encryption.WPA to "WPA", WiFi.Encryption.WPA2_EAP to "WPA2-EAP")
-public val wifiRevEncryptions = mapOf("Open" to WiFi.Encryption.OPEN, "WEP" to WiFi.Encryption.WEP, "WPA" to WiFi.Encryption.WPA, "WPA2-EAP" to WiFi.Encryption.WPA2_EAP)
+val wifiEncryptions = mapOf(WiFi.Encryption.OPEN to "Open", WiFi.Encryption.WEP to "WEP", WiFi.Encryption.WPA to "WPA", WiFi.Encryption.WPA2_EAP to "WPA2-EAP")
+val wifiRevEncryptions = mapOf("Open" to WiFi.Encryption.OPEN, "WEP" to WiFi.Encryption.WEP, "WPA" to WiFi.Encryption.WPA, "WPA2-EAP" to WiFi.Encryption.WPA2_EAP)
 
 class BarcodeDataAdapter(private val layout: ViewGroup, val format: Formats) {
     val formatted: FormattedData
@@ -53,12 +53,12 @@ class BarcodeDataAdapter(private val layout: ViewGroup, val format: Formats) {
                             layout.findViewById<TextInputLayout>(R.id.surnameInput).editText?.text.toString(),
                             layout.findViewById<TextInputLayout>(R.id.phoneInput).editText?.text.toString(),
                             layout.findViewById<TextInputLayout>(R.id.emailInput).editText?.text.toString(),
-                            layout.findViewById<TextInputLayout>(R.id.descriptionInput).editText?.text.toString(),
-                            layout.findViewById<TextInputLayout>(R.id.birthdayInput).editText?.text.toString(),
-                            layout.findViewById<TextInputLayout>(R.id.addressInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.companyInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.jobInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.streetInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.cityInput).editText?.text.toString(),
+                            layout.findViewById<TextInputLayout>(R.id.countryInput).editText?.text.toString(),
                             layout.findViewById<TextInputLayout>(R.id.webSiteInput).editText?.text.toString(),
-                            layout.findViewById<TextInputLayout>(R.id.nickNameInput).editText?.text.toString()
-
                     )
                 }
 
@@ -100,11 +100,11 @@ class BarcodeDataAdapter(private val layout: ViewGroup, val format: Formats) {
                     layout.findViewById<TextInputLayout>(R.id.surnameInput)?.editText?.setText(data.surname)
                     layout.findViewById<TextInputLayout>(R.id.phoneInput)?.editText?.setText(data.phone)
                     layout.findViewById<TextInputLayout>(R.id.emailInput)?.editText?.setText(data.email)
-                    layout.findViewById<TextInputLayout>(R.id.descriptionInput)?.editText?.setText(data.description)
-                    layout.findViewById<TextInputLayout>(R.id.birthdayInput)?.editText?.setText(data.birthday)
-                    layout.findViewById<TextInputLayout>(R.id.addressInput)?.editText?.setText(data.address)
+                    layout.findViewById<TextInputLayout>(R.id.companyInput)?.editText?.setText(data.company)
+                    layout.findViewById<TextInputLayout>(R.id.jobInput)?.editText?.setText(data.company)
+                    layout.findViewById<TextInputLayout>(R.id.cityInput)?.editText?.setText(data.jobTitle)
+                    layout.findViewById<TextInputLayout>(R.id.streetInput)?.editText?.setText(data.street)
                     layout.findViewById<TextInputLayout>(R.id.webSiteInput)?.editText?.setText(data.website)
-                    layout.findViewById<TextInputLayout>(R.id.nickNameInput)?.editText?.setText(data.nickname)
                 }
                 is Location -> {
                     layout.findViewById<TextInputLayout>(R.id.latitudeInput)?.editText?.setText(data.latitude)
@@ -114,8 +114,8 @@ class BarcodeDataAdapter(private val layout: ViewGroup, val format: Formats) {
         }
 
 
-        const val colorOne = Color.BLACK
-        const val colorZero = Color.WHITE
+        private const val colorOne = Color.BLACK
+        private const val colorZero = Color.WHITE
 
         fun tableToBitmap(table: Array<Array<ModuleState>>): Bitmap {
             val bitmap = Bitmap.createBitmap(table.size, table[0].size, Bitmap.Config.RGB_565)
