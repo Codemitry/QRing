@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Scan me</string>
+    <string name="app_name" translatable="false">QRing</string>
     <string name="permissions_not_granted">Permissions not granted by the user</string>
     <string name="scan">Scan</string>
     <string name="create">Create</string>
@@ -38,7 +38,6 @@
     <string name="at">at</string>
     <string name="format">Format</string>
     <string name="create_own_code">Create your own code</string>
-    <string name="write_here">Write here…</string>
     <string name="next">Next</string>
 
     <string name="correction">Correction</string>

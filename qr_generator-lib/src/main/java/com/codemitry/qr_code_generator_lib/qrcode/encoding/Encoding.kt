@@ -23,26 +23,37 @@ fun charCountIndicator(data: String, version: Int, encoding: DataConverter.Encod
 
 interface FormattedData : Serializable {
     val formatted: String
+    val displayValue: String
 }
 
 data class Text(val text: String) : FormattedData {
     override val formatted = text
+    override val displayValue: String
+        get() = text
 }
 
 data class Url(val url: String) : FormattedData {
     override val formatted = "URL:$url"
+    override val displayValue: String
+        get() = url
 }
 
 data class Phone(val phone: String) : FormattedData {
     override val formatted = "tel:$phone"
+    override val displayValue: String
+        get() = phone
 }
 
 data class Sms(val phone: String, val message: String) : FormattedData {
     override val formatted = "smsto:$phone:$message"
+    override val displayValue: String
+        get() = "$phone: $message"
 }
 
 data class EmailAddress(val address: String) : FormattedData {
     override val formatted = "mailto:$address"
+    override val displayValue: String
+        get() = address
 }
 
 data class Email(val address: String, val topic: String, val message: String) : FormattedData {
@@ -50,10 +61,16 @@ data class Email(val address: String, val topic: String, val message: String) : 
 
     // TODO: Maybe empty topic allowed to remove?
     override val formatted = "MATMSG:TO:$address;SUB:$topic;Body:$message;;"
+
+    override val displayValue: String
+        get() = "$address: $topic $message"
 }
 
 data class Location(val latitude: String, val longitude: String) : FormattedData {
     override val formatted = "geo:$latitude,$longitude"
+
+    override val displayValue: String
+        get() = "Geo: $latitude; $longitude"
 
     init {
         if (latitude.toDouble() !in -90.0..90.0 || longitude.toDouble() !in -180.0..180.0)
@@ -76,11 +93,16 @@ data class WiFi(val encryption: Encryption, val ssid: String, val password: Stri
     }
 
     override val formatted = "WIFI:T:${encryption.value()};S:$ssid;P:$password;H:$hidden;;"
+
+    override val displayValue: String
+        get() = "Wi-Fi: $ssid : $password"
 }
 
 data class VCard(val name: String, val surname: String, val phone: String, val email: String,
                  val company: String, val jobTitle: String, val street: String, val city: String, val country: String,
                  val website: String) : FormattedData {
     override val formatted = "BEGIN:VCARD\nVERSION:3.0\nN:$surname;$name\nTEL;TYPE=work,voice:$phone\nEMAIL:$email\nORG:$company\nTITLE:$jobTitle\nADR;TYPE=WORK,PREF:;;$street;$city;;;$country\nURL:$website\nEND:VCARD"
-//    override val formatted = "MECARD:N:$name,$surname;TEL:$phone;EMAIL:$email;NOTE:$description;BDAY:$birthday;ADR:$address;URL:$website;NICKNAME:$nickname;;"
+
+    override val displayValue: String
+        get() = "vCard: $name $surname $phone $email $website"
 }

@@ -36,14 +36,13 @@ class MaskFragment(private val onMaskChosen: (mask: Int) -> Unit) : Fragment() {
         val noMatterCheckbox = view.findViewById<CheckBox>(R.id.no_matter_checkbox)
 
         noMatterCheckbox.setOnCheckedChangeListener { compoundButton, checked ->
-            println("called")
-            picker.isEnabled = !checked
+            picker.visibility = if (checked) View.GONE else View.VISIBLE
+//            picker.isEnabled = !checked
 
             // TODO: If mask no matter, default mask is 1. Redo
             if (checked)
                 onMaskChosen(1)
         }
-
     }
 
 }

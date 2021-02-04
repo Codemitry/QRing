@@ -38,7 +38,7 @@
         android:scaleType="fitXY"
 
         android:src="@drawable/attach"
-        android:tint="@android:color/white"
+        android:tint="@color/gray_200"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,6 +51,7 @@
         android:scaleType="fitXY"
 
         android:src="@drawable/flash_off"
+        android:tint="@color/gray_200"
         android:background="?selectableItemBackground"
 
         android:layout_marginTop="15dp"
@@ -68,6 +69,7 @@
         android:scaleType="fitXY"
 
         android:src="@drawable/history"
+        android:tint="@color/gray_200"
         android:background="?selectableItemBackground"
 
         android:layout_marginTop="15dp"

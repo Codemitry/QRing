@@ -51,7 +51,6 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
                         changeState(States.DETECTED);
 
                         Barcode barcode = barcodes.get(0);
-
                         ValueAnimator searchingAnimator = createSearchingAnimator(graphicOverlay, barcode);
                         searchingAnimator.start();
 

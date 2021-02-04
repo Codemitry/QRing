@@ -31,7 +31,7 @@ class Barcode(val data: FormattedData, val correction: ErrorCorrectionLevels, va
     var version = 0
         private set
 
-    val displayValue = data.formatted
+    val displayValue = data.displayValue
 
     val format: Formats = when (data) {
         is Text -> Formats.TEXT

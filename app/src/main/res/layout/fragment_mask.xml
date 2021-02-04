@@ -8,6 +8,8 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
 
+    android:animateLayoutChanges="true"
+
     android:orientation="vertical"
     tools:context=".ui.create.MaskFragment">
 
@@ -41,11 +43,16 @@
     </LinearLayout>
 
     <NumberPicker
+
+        android:descendantFocusability="blocksDescendants"
+        android:visibility="gone"
+
         android:id="@+id/maskPicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:layout_gravity="center"
+        tools:visibility="visible"
 
         android:layout_marginStart="5dp"
         android:gravity="center"
@@ -56,6 +63,10 @@
     </NumberPicker>
 
     <CheckBox
+
+        android:checked="true"
+        tools:checked="false"
+
         android:id="@+id/no_matter_checkbox"
         style="@style/Text.SubText"
         android:layout_width="wrap_content"
