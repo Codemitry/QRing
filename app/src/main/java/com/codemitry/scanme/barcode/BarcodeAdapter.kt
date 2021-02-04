@@ -98,7 +98,6 @@ class BarcodeAdapter {
                         }
                     }
 
-            // TODO: replace text to format
             return Barcode(data, ErrorCorrectionLevels.default())
         }
     }

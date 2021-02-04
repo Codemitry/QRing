@@ -90,10 +90,10 @@ class BarcodeResultFragment(private val qrCode: Barcode) : BottomSheetDialogFrag
                     view.findViewById<TextView>(R.id.message).text = (email.message)
                 }
 
-                if (email.topic.isEmpty()) {
+                if (email.subject.isEmpty()) {
                     view.findViewById<View>(R.id.subjectLayout).visibility = View.GONE
                 } else {
-                    view.findViewById<TextView>(R.id.subject).text = email.topic
+                    view.findViewById<TextView>(R.id.subject).text = email.subject
                 }
 
                 view.findViewById<View>(R.id.sendEmail).setOnClickListener {
@@ -306,7 +306,7 @@ class BarcodeResultFragment(private val qrCode: Barcode) : BottomSheetDialogFrag
         emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email.address))
 
         // subject
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, email.topic)
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, email.subject)
 
         // message
         emailIntent.putExtra(Intent.EXTRA_TEXT, email.message)

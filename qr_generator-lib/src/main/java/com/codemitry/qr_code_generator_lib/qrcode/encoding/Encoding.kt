@@ -56,14 +56,13 @@ data class EmailAddress(val address: String) : FormattedData {
         get() = address
 }
 
-data class Email(val address: String, val topic: String, val message: String) : FormattedData {
+data class Email(val address: String, val subject: String, val message: String) : FormattedData {
     constructor(address: String, message: String) : this(address, "", message)
 
-    // TODO: Maybe empty topic allowed to remove?
-    override val formatted = "MATMSG:TO:$address;SUB:$topic;Body:$message;;"
+    override val formatted = "MATMSG:TO:$address;SUB:$subject;Body:$message;;"
 
     override val displayValue: String
-        get() = "$address: $topic $message"
+        get() = "$address: $subject $message"
 }
 
 data class Location(val latitude: String, val longitude: String) : FormattedData {

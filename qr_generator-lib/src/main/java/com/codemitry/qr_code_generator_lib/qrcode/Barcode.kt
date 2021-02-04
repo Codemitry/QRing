@@ -142,8 +142,8 @@ class Barcode(val data: FormattedData, val correction: ErrorCorrectionLevels, va
         }
     }
 
-    val timingX = 6
-    val timingY = 6
+    private val timingX = 6
+    private val timingY = 6
 
     private fun drawTimingPatterns() {
         val colors = arrayOf(ModuleState.FALSE, ModuleState.TRUE)

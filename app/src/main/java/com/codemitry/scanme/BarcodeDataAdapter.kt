@@ -81,7 +81,7 @@ class BarcodeDataAdapter(private val layout: ViewGroup, val format: Formats) {
                 is Url -> layout.findViewById<TextInputLayout>(R.id.linkInput).editText?.setText(data.url)
                 is Email -> {
                     layout.findViewById<TextInputLayout>(R.id.addressInput).editText?.setText(data.address)
-                    layout.findViewById<TextInputLayout>(R.id.subjectInput).editText?.setText(data.topic)
+                    layout.findViewById<TextInputLayout>(R.id.subjectInput).editText?.setText(data.subject)
                     layout.findViewById<TextInputLayout>(R.id.messageInput).editText?.setText(data.message)
                 }
                 is Sms -> {

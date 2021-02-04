@@ -87,7 +87,7 @@ class DataFragment(private val onChangeValidityInput: (isInputValid: Boolean) ->
         Formats.CONTACT_INFO -> R.layout.input_vcard
         Formats.LOCATION -> R.layout.input_location
 
-        else -> R.layout.input_text // TODO: Fix layout
+        else -> R.layout.input_text // abnormal behavior
     }
 
     private fun configInputValidity(format: Formats) {
@@ -249,7 +249,7 @@ class DataFragment(private val onChangeValidityInput: (isInputValid: Boolean) ->
 
             else -> {
             }
-        } // TODO: Fix setting input
+        }
     }
 
 }
