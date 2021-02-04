@@ -44,7 +44,6 @@ import kotlin.math.min
 
 private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
 const val REQUEST_CODE_CAMERA = 9182
-const val REQUEST_PICK_IMAGE = 9192
 
 class ScanFragment : Fragment(), OnChangeStatesListener {
 
