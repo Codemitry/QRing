@@ -82,5 +82,6 @@
     <string name="country">Country</string>
     <string name="city">City</string>
     <string name="street">Street</string>
+    <string name="clear_all_entered_data">Clear all entered data?</string>
 
 </resources>

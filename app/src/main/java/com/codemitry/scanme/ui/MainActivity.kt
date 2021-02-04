@@ -39,7 +39,13 @@ class MainActivity : AppCompatActivity(), OnHistoryClickListener {
 
             bottomNavigationView?.setOnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
-                    R.id.create -> startCreateQRFragment()
+                    R.id.create ->
+                        if (createQRFragment?.isAdded == true && createQRFragment?.anyDataEntered() == true) {
+                            val dialog = Dialog()
+                            dialog.setTitle(R.string.clear_all_entered_data)
+                            dialog.setOnConfirmClick(::startCreateQRFragment)
+                            dialog.show(supportFragmentManager, Dialog::class.simpleName)
+                        } else startCreateQRFragment()
                     R.id.scan -> startScanQRFragment()
                 }
 

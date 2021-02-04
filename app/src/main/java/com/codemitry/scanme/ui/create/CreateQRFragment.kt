@@ -209,4 +209,8 @@ class CreateQRFragment : Fragment() {
         else -> error("Unreachable situation")
     }
 
+    fun anyDataEntered(): Boolean {
+        return qrFormat != null
+    }
+
 }
